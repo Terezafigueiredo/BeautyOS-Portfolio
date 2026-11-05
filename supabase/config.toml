@@ -1,0 +1,26 @@
+# BeautyOS — configuração local do Supabase CLI
+#
+# Este arquivo não existia antes desta alteração. A ÚNICA entrada
+# abaixo é a estritamente necessária para a Edge Function
+# "booking-request" usar o modelo atual de autenticação por
+# publishable key (via @supabase/server / withSupabase).
+#
+# POR QUE verify_jwt = false AQUI:
+# A checagem de gateway da plataforma ("verify_jwt") só sabe validar
+# as chaves LEGADAS baseadas em JWT (a antiga "anon key"/"service_role
+# key"). A publishable key atual (formato "sb_publishable_...") não é
+# um JWT — não há JWT nenhum para essa checagem verificar, então ela
+# rejeitaria TODA requisição legítima se deixada como "true" (padrão).
+#
+# Isso NÃO é "desligar a autenticação". A autenticação de verdade
+# passa a ser feita dentro do código da função, pelo wrapper oficial
+# @supabase/server (withSupabase({ auth: 'publishable' })), que exige
+# uma publishable key válida deste projeto no header "apikey" antes
+# de qualquer lógica de negócio rodar — ver
+# supabase/functions/booking-request/index.ts.
+#
+# Nenhuma outra configuração foi adicionada. Nenhum secret real está
+# neste arquivo.
+
+[functions.booking-request]
+verify_jwt = false

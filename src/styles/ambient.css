@@ -1,0 +1,187 @@
+/* =========================
+   FUNDO ANIMADO REUTILIZÁVEL (AmbientBackground)
+   Usado no Sobre e nas demais seções da Home. Fica atrás de todo o
+   conteúdo (z-index -1), sem interação. Luzes difusas que se deslocam e
+   pulsam + partículas douradas/rosadas/champanhe em quatro profundidades,
+   cada uma com trajeto, velocidade e atraso próprios. Só transform/opacity.
+   A seção que o recebe precisa de position: relative e isolation: isolate.
+========================= */
+
+.ambient {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  pointer-events: none;
+}
+
+.ambient-tone-gold {
+  --c: 224 178 98;
+}
+
+.ambient-tone-rose {
+  --c: 222 140 152;
+}
+
+.ambient-tone-champagne {
+  --c: 240 206 160;
+}
+
+.ambient-light {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+
+  width: var(--s);
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    closest-side,
+    rgb(var(--c) / 0.55),
+    rgb(var(--c) / 0.24) 55%,
+    rgb(var(--c) / 0)
+  );
+
+  translate: -50% -50%;
+  opacity: 0.8;
+
+  animation: ambient-light-drift var(--t) ease-in-out var(--d) infinite alternate;
+}
+
+.ambient-particle {
+  --o: 0.8;
+
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+
+  width: calc(var(--s) * 1.6);
+  height: calc(var(--s) * 1.6);
+
+  border-radius: 50%;
+
+  opacity: var(--o);
+
+  animation: ambient-float calc(var(--t) * 0.75) ease-in-out var(--d) infinite;
+}
+
+.ambient-particle.ambient-tone-gold {
+  background: radial-gradient(circle, #fff3d6 0%, #dfa955 40%, rgba(210, 160, 80, 0) 74%);
+  box-shadow: 0 0 calc(var(--s) * 2.4) rgba(232, 182, 100, 0.6);
+}
+
+.ambient-particle.ambient-tone-rose {
+  background: radial-gradient(circle, #ffe9ec 0%, #d9808f 42%, rgba(217, 128, 143, 0) 74%);
+  box-shadow: 0 0 calc(var(--s) * 2.4) rgba(217, 128, 143, 0.5);
+}
+
+.ambient-particle.ambient-tone-champagne {
+  background: radial-gradient(circle, #fff8ec 0%, #e9c79a 45%, rgba(233, 199, 154, 0) 74%);
+}
+
+/* Profundidade: ao fundo, menores, desfocadas e mais apagadas. */
+.ambient-depth-1 {
+  --o: 0.6;
+
+  filter: blur(1.5px);
+}
+
+.ambient-depth-3 {
+  --o: 1;
+}
+
+/* Orbes maiores, bem desfocados, como luz fora de foco. */
+.ambient-depth-4 {
+  --o: 0.55;
+
+  width: var(--s);
+  height: var(--s);
+
+  box-shadow: none;
+  filter: blur(3px);
+}
+
+@keyframes ambient-light-drift {
+  0% {
+    opacity: 0.65;
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(34px, -22px) scale(1.14);
+  }
+
+  100% {
+    opacity: 0.7;
+    transform: translate(-26px, 18px) scale(0.94);
+  }
+}
+
+@keyframes ambient-float {
+  0%,
+  100% {
+    opacity: calc(var(--o) * 0.55);
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    opacity: var(--o);
+    transform: translate(calc(var(--fx1) * var(--ax, 1)), var(--fy1)) scale(1.15);
+  }
+
+  66% {
+    opacity: calc(var(--o) * 0.75);
+    transform: translate(calc(var(--fx2) * var(--ax, 1)), var(--fy2)) scale(0.9);
+  }
+}
+
+/* Fora da tela, nada anima em segundo plano. */
+.ambient.is-offscreen * {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient * {
+    animation: none !important;
+  }
+}
+
+/* Coluna única: posições próprias, e as partículas das margens balançam
+   pouco na horizontal para não invadir o texto. */
+@media (max-width: 900px) {
+  .ambient-light,
+  .ambient-particle {
+    left: var(--xm);
+    top: var(--ym);
+  }
+
+  .ambient-particle {
+    --ax: 0.3;
+  }
+}
+
+/* Celular: cena mais leve. */
+@media (max-width: 600px) {
+  .ambient-depth-1 {
+    display: none;
+  }
+
+  .ambient-light {
+    width: calc(var(--s) * 0.7);
+  }
+
+  .ambient-particle {
+    --ax: 0.15;
+
+    width: calc(var(--s) * 1.05);
+    height: calc(var(--s) * 1.05);
+  }
+
+  .ambient-depth-4 {
+    width: calc(var(--s) * 0.8);
+    height: calc(var(--s) * 0.8);
+  }
+}

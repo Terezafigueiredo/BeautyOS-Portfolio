@@ -1,0 +1,1181 @@
+/* =========================
+   HOME — SERVIÇOS, PACOTES, AGENDAMENTO E RODAPÉ
+   Mesma linguagem da capa e do Sobre (tokens --th-*, Playfair, dourado).
+   Tudo dentro de .home-page: o rodapé da página 404 e as páginas
+   Social/Noiva/Debutante não são afetados.
+
+   Fundo contínuo: cada seção começa no tom em que a anterior termina
+   (Sobre → #fffaf8 → Serviços → #f8e6df → Pacotes → #f9e9e2 →
+   Agendamento → #f3dcd3 → Rodapé).
+========================= */
+
+.home-page .services,
+.home-page .portfolio,
+.home-page .booking,
+.home-page .footer {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+/* Rosa mais escuro para textos pequenos sobre os nudes mais fortes (AA). */
+.home-page {
+  --th-rose-deep: #8a4a50;
+}
+
+/* ---------- Entrada ao rolar (mesmo padrão do Sobre) ---------- */
+
+.home-page section:not(.is-revealed) .reveal {
+  opacity: 0;
+}
+
+.home-page .is-revealed .reveal {
+  animation: th-rise 0.9s var(--th-ease-soft) var(--rd, 0s) backwards;
+}
+
+/* ---------- Títulos editoriais compartilhados ---------- */
+
+.home-page .services-eyebrow,
+.home-page .booking-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+
+  font-family: inherit;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+
+  color: var(--th-rose-deep);
+}
+
+.home-page .services-eyebrow::before,
+.home-page .services-eyebrow::after,
+.home-page .booking-eyebrow::before {
+  content: "";
+
+  width: 36px;
+  height: 1px;
+
+  background: linear-gradient(90deg, rgba(201, 146, 74, 0), #c9924a);
+}
+
+.home-page .services-eyebrow::after {
+  background: linear-gradient(90deg, #c9924a, rgba(201, 146, 74, 0));
+}
+
+.home-page .services-heading h2,
+.home-page .portfolio-heading h2,
+.home-page .booking-content h2 {
+  font-family: var(--th-serif);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+
+  color: var(--th-ink);
+}
+
+.home-page .services-heading h2,
+.home-page .portfolio-heading h2 {
+  font-size: clamp(34px, 4.6vw, 58px);
+  line-height: 1.1;
+}
+
+/* Losango dourado sob os títulos centrais. */
+.home-page .services-heading h2::after,
+.home-page .portfolio-heading h2::after {
+  content: "";
+
+  display: block;
+
+  width: 120px;
+  height: 10px;
+  margin: 22px auto 0;
+
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='10' viewBox='0 0 120 10'%3E%3Cdefs%3E%3ClinearGradient id='g'%3E%3Cstop offset='0' stop-color='%23c9924a' stop-opacity='0'/%3E%3Cstop offset='.5' stop-color='%23c9924a'/%3E%3Cstop offset='1' stop-color='%23c9924a' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0 5h54M66 5h54' stroke='url(%23g)'/%3E%3Cpath d='M60 1.5 63.5 5 60 8.5 56.5 5z' fill='%23fbede7' stroke='%23c9924a'/%3E%3C/svg%3E")
+    center / 120px 10px no-repeat;
+}
+
+.home-page .services-heading p,
+.home-page .portfolio-heading p {
+  margin-top: 18px;
+
+  font-size: 15.5px;
+  line-height: 1.8;
+
+  color: var(--th-text);
+}
+
+/* =========================
+   SERVIÇOS
+========================= */
+
+.home-page .services {
+  padding: clamp(84px, 9vw, 120px) 6%;
+
+  background: linear-gradient(180deg, #fffaf8 0%, #fbefe9 50%, #f8e6df 100%);
+}
+
+.home-page .experiences-carousel {
+  --rd: 0.15s;
+}
+
+.home-page .experience-image,
+.home-page .experience-overlay {
+  border-radius: 30px;
+}
+
+.home-page .experience-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(52, 32, 30, 0.8) 0%,
+    rgba(52, 32, 30, 0.26) 45%,
+    rgba(52, 32, 30, 0.02) 75%
+  );
+
+  /* Fio dourado interno que acende no hover. */
+  box-shadow: inset 0 0 0 1px rgba(243, 207, 143, 0);
+
+  transition: box-shadow 0.5s ease;
+}
+
+.home-page .experience-card:hover .experience-overlay {
+  box-shadow:
+    inset 0 0 0 1px rgba(243, 207, 143, 0.75),
+    inset 0 0 0 9px rgba(255, 255, 255, 0.06);
+}
+
+.home-page .experience-number {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-weight: 600;
+
+  color: #f3cf8f;
+}
+
+.home-page .experience-number::after {
+  content: "";
+
+  width: 28px;
+  height: 1px;
+
+  background: linear-gradient(90deg, #f3cf8f, rgba(243, 207, 143, 0));
+}
+
+.home-page .experience-content h3 {
+  font-family: var(--th-serif);
+  font-size: clamp(26px, 2.3vw, 31px);
+  letter-spacing: -0.01em;
+}
+
+.home-page .carousel-arrow {
+  border-color: rgba(201, 146, 74, 0.45);
+
+  background-color: rgba(255, 250, 248, 0.94);
+  color: var(--th-rose);
+
+  box-shadow: 0 12px 30px rgba(110, 70, 70, 0.14);
+}
+
+.home-page .carousel-arrow:hover {
+  background-color: var(--th-rose-button);
+  color: #ffffff;
+}
+
+/* Pontos: área de toque de 24px, traço visível no ::before. */
+.home-page .services .carousel-dots {
+  gap: 2px;
+}
+
+.home-page .services .carousel-dot {
+  position: relative;
+
+  width: 24px;
+  height: 24px;
+
+  border-radius: 12px;
+  background-color: transparent;
+}
+
+.home-page .services .carousel-dot::before {
+  content: "";
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 20px;
+  background-color: #e3c4c4;
+
+  translate: -50% -50%;
+
+  transition: width 0.35s var(--th-ease-soft);
+}
+
+.home-page .services .carousel-dot-active {
+  width: 40px;
+}
+
+.home-page .services .carousel-dot-active::before {
+  width: 28px;
+
+  background: linear-gradient(90deg, #a95c62, #c9924a);
+}
+
+/* =========================
+   PACOTES (#portfolio)
+========================= */
+
+.home-page .portfolio {
+  padding: clamp(84px, 9vw, 120px) 8%;
+
+  background: linear-gradient(180deg, #f8e6df 0%, #fcf3ee 50%, #f9e9e2 100%);
+}
+
+/* Cartões em arco, como a foto da capa e o carrossel do Sobre. */
+.home-page .portfolio-item {
+  border-radius: 50% 50% 26px 26px / 28% 28% 26px 26px;
+
+  box-shadow: 0 24px 60px rgba(110, 70, 70, 0.16);
+
+  transition:
+    transform 0.45s var(--th-ease-soft),
+    box-shadow 0.45s ease;
+}
+
+.home-page .portfolio-item:nth-child(2) {
+  --rd: 0.12s;
+}
+
+.home-page .portfolio-item:nth-child(3) {
+  --rd: 0.24s;
+}
+
+.home-page .portfolio-item:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 30px 70px rgba(110, 70, 70, 0.22),
+    0 0 0 6px rgba(255, 250, 246, 0.6);
+}
+
+/* Moldura dourada interna. */
+.home-page .portfolio-item::after {
+  content: "";
+
+  position: absolute;
+  inset: 10px;
+
+  border: 1px solid rgba(243, 207, 143, 0.55);
+  border-radius: 50% 50% 18px 18px / 28% 28% 18px 18px;
+
+  pointer-events: none;
+
+  transition: border-color 0.45s ease;
+}
+
+.home-page .portfolio-item:hover::after {
+  border-color: rgba(243, 207, 143, 0.95);
+}
+
+.home-page .portfolio-overlay {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+
+  padding: 32px;
+
+  background: linear-gradient(to top, rgba(52, 32, 30, 0.72), rgba(52, 32, 30, 0) 55%);
+}
+
+.home-page .portfolio-overlay::before {
+  content: "";
+
+  width: 34px;
+  height: 1px;
+  margin-bottom: 12px;
+
+  background: linear-gradient(90deg, #f3cf8f, rgba(243, 207, 143, 0));
+}
+
+.home-page .portfolio-overlay span {
+  font-family: var(--th-serif);
+  font-size: clamp(24px, 2.2vw, 28px);
+  letter-spacing: -0.01em;
+}
+
+.home-page .portfolio-item:focus-visible {
+  outline: 2px solid var(--th-rose);
+  outline-offset: 5px;
+}
+
+/* =========================
+   AGENDAMENTO — painel de vidro claro
+========================= */
+
+.home-page .booking {
+  padding: clamp(110px, 11vw, 140px) 11%;
+
+  background: linear-gradient(180deg, #f9e9e2 0%, #f6e1d9 55%, #f3dcd3 100%);
+  color: var(--th-ink);
+}
+
+.home-page .booking::before {
+  content: "";
+
+  position: absolute;
+  inset: clamp(48px, 5vw, 64px) 5%;
+  z-index: 0;
+
+  border: 1px solid rgba(214, 168, 96, 0.5);
+  border-radius: 40px;
+
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(255, 248, 244, 0.56));
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+
+  box-shadow:
+    0 30px 80px rgba(122, 72, 72, 0.12),
+    inset 0 0 0 8px rgba(255, 255, 255, 0.28);
+
+  pointer-events: none;
+}
+
+.home-page .booking > :not(.ambient) {
+  position: relative;
+  z-index: 1;
+}
+
+.home-page .booking-content h2 {
+  font-size: clamp(36px, 4.4vw, 58px);
+  line-height: 1.06;
+}
+
+.home-page .booking-content h2 span {
+  color: #a95c62;
+  background: linear-gradient(100deg, #b8686f 0%, #a3575e 55%, #a87553 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.home-page .booking-content p {
+  font-size: 15.5px;
+
+  color: var(--th-text);
+}
+
+.home-page .booking .booking-primary,
+.home-page .booking .booking-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 52px;
+  padding: 0 28px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+
+  transition:
+    transform 0.35s var(--th-ease-soft),
+    box-shadow 0.35s ease,
+    background-color 0.35s ease;
+}
+
+.home-page .booking .booking-primary {
+  background: linear-gradient(135deg, #ad5f65 0%, #974d53 100%);
+  color: #ffffff;
+
+  box-shadow: 0 14px 30px rgba(151, 77, 83, 0.3);
+}
+
+.home-page .booking .booking-primary:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 18px 40px rgba(151, 77, 83, 0.4),
+    0 0 0 6px rgba(201, 146, 74, 0.14);
+}
+
+.home-page .booking .booking-secondary {
+  border: 1px solid rgba(159, 85, 91, 0.7);
+
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--th-rose);
+}
+
+.home-page .booking .booking-secondary:hover {
+  background: #ffffff;
+  color: var(--th-rose);
+
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(122, 72, 72, 0.12);
+}
+
+.home-page .booking-info {
+  --rd: 0.18s;
+}
+
+.home-page .booking-info div {
+  border-bottom: 1px solid rgba(201, 146, 74, 0.35);
+}
+
+.home-page .booking-info span {
+  font-family: var(--th-serif);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+
+  color: #86583a;
+}
+
+.home-page .booking-info h3 {
+  font-family: var(--th-serif);
+  font-size: clamp(21px, 1.9vw, 24px);
+
+  color: var(--th-ink);
+}
+
+.home-page .booking-info p {
+  color: var(--th-text);
+}
+
+.home-page .booking a:focus-visible,
+.home-page .services button:focus-visible,
+.home-page .footer a:focus-visible {
+  outline: 2px solid var(--th-rose);
+  outline-offset: 4px;
+}
+
+/* =========================
+   AGENDAMENTO — formulário (BookingForm)
+   Ocupa a largura toda do painel, abaixo do texto e dos passos.
+========================= */
+
+.home-page .bf-panel {
+  --rd: 0.3s;
+
+  grid-column: 1 / -1;
+
+  margin-top: clamp(8px, 2vw, 24px);
+  padding: clamp(28px, 4vw, 48px);
+
+  border: 1px solid rgba(214, 168, 96, 0.4);
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 20px 50px rgba(122, 72, 72, 0.08);
+
+  /* Ao rolar até o formulário, não fica sob o cabeçalho fixo. */
+  scroll-margin-top: 110px;
+}
+
+.home-page .bf-heading {
+  max-width: 640px;
+  margin: 0 auto 32px;
+
+  text-align: center;
+}
+
+.home-page .bf-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+
+  color: var(--th-rose);
+}
+
+.home-page .bf-eyebrow::before,
+.home-page .bf-eyebrow::after {
+  content: "";
+
+  width: 26px;
+  height: 1px;
+
+  background: #c9924a;
+}
+
+.home-page .bf-heading h3 {
+  margin-top: 12px;
+
+  font-family: var(--th-serif);
+  font-size: clamp(26px, 2.8vw, 36px);
+  font-weight: 500;
+  line-height: 1.15;
+  text-wrap: balance;
+
+  color: var(--th-ink);
+}
+
+.home-page .bf-heading p {
+  margin-top: 12px;
+
+  font-size: 15px;
+  line-height: 1.7;
+
+  color: var(--th-text);
+}
+
+.home-page .bf-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.home-page .bf-grid {
+  display: grid;
+  gap: 22px;
+}
+
+.home-page .bf-grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.home-page .bf-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  min-width: 0;
+}
+
+.home-page .bf-field label,
+.home-page .bf-fieldset legend {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  color: #5b4843;
+}
+
+.home-page .bf-required {
+  color: var(--th-rose);
+}
+
+.home-page .bf-optional {
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: none;
+
+  color: var(--th-text);
+}
+
+.home-page .bf-field input,
+.home-page .bf-field select,
+.home-page .bf-field textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  padding: 0 16px;
+
+  border: 1px solid rgba(159, 85, 91, 0.32);
+  border-radius: 14px;
+
+  background: #ffffff;
+  color: var(--th-ink);
+
+  font: inherit;
+  font-size: 16px; /* 16px evita o zoom automático no iPhone */
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.home-page .bf-field textarea {
+  padding: 14px 16px;
+
+  line-height: 1.6;
+
+  resize: vertical;
+}
+
+.home-page .bf-field input:focus-visible,
+.home-page .bf-field select:focus-visible,
+.home-page .bf-field textarea:focus-visible {
+  outline: none;
+
+  border-color: var(--th-rose);
+  box-shadow:
+    0 0 0 3px rgba(169, 92, 98, 0.22),
+    0 0 0 6px rgba(201, 146, 74, 0.14);
+}
+
+.home-page .bf-field [aria-invalid="true"] {
+  border-color: #9b2d3a;
+  box-shadow: 0 0 0 3px rgba(155, 45, 58, 0.12);
+}
+
+.home-page .bf-error {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.5;
+
+  color: #9b2d3a;
+}
+
+.home-page .bf-alert {
+  padding: 14px 18px;
+
+  border: 1px solid rgba(155, 45, 58, 0.35);
+  border-radius: 14px;
+
+  background: #fff3f3;
+  color: #9b2d3a;
+
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.home-page .bf-fieldset {
+  min-width: 0;
+  padding: 0;
+
+  border: 0;
+}
+
+.home-page .bf-fieldset legend {
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.home-page .bf-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.home-page .bf-choice {
+  position: relative;
+
+  cursor: pointer;
+}
+
+/* O rádio fica acessível (teclado e leitor de tela), escondido visualmente. */
+.home-page .bf-choice input {
+  position: absolute;
+  inset: 0;
+
+  opacity: 0;
+
+  cursor: pointer;
+}
+
+.home-page .bf-choice span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 140px;
+  min-height: 48px;
+  padding: 0 24px;
+
+  border: 1px solid rgba(159, 85, 91, 0.4);
+  border-radius: 999px;
+
+  background: #ffffff;
+  color: var(--th-rose);
+
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.home-page .bf-choice input:checked + span {
+  border-color: transparent;
+
+  background: linear-gradient(135deg, #ad5f65 0%, #974d53 100%);
+  color: #ffffff;
+
+  box-shadow: 0 10px 22px rgba(151, 77, 83, 0.25);
+}
+
+.home-page .bf-choice input:focus-visible + span {
+  outline: 2px solid var(--th-rose);
+  outline-offset: 3px;
+}
+
+.home-page .bf-choice input:disabled + span {
+  border-style: dashed;
+
+  color: #8f7c78;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.home-page .bf-choice input:disabled {
+  cursor: not-allowed;
+}
+
+.home-page .bf-choice input[aria-invalid="true"] + span {
+  border-color: #9b2d3a;
+}
+
+.home-page .bf-fieldset .bf-error,
+.home-page .bf-fieldset .bf-hint {
+  margin-top: 10px;
+}
+
+.home-page .bf-hint {
+  font-size: 14px;
+  line-height: 1.6;
+
+  color: var(--th-text);
+}
+
+.home-page .bf-price {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+
+  margin-top: 14px;
+  padding: 10px 18px;
+
+  border: 1px solid rgba(201, 146, 74, 0.45);
+  border-radius: 999px;
+
+  background: #fffaf3;
+  color: var(--th-text);
+
+  font-size: 14px;
+}
+
+.home-page .bf-price strong {
+  font-family: var(--th-serif);
+  font-size: 20px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  color: var(--th-rose);
+}
+
+.home-page .bf-estimate strong {
+  color: var(--th-rose);
+}
+
+.home-page .bf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+.home-page .bf-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 54px;
+  padding: 10px 34px;
+
+  border-radius: 999px;
+
+  font: inherit;
+  font-size: 12.5px;
+  line-height: 1.4;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.35s var(--th-ease-soft),
+    box-shadow 0.35s ease,
+    background-color 0.35s ease;
+}
+
+.home-page .bf-button-primary {
+  border: 0;
+
+  background: linear-gradient(135deg, #ad5f65 0%, #974d53 100%);
+  color: #ffffff;
+
+  box-shadow: 0 14px 30px rgba(151, 77, 83, 0.3);
+}
+
+.home-page .bf-button-primary:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 18px 40px rgba(151, 77, 83, 0.4),
+    0 0 0 6px rgba(201, 146, 74, 0.14);
+}
+
+.home-page .bf-button-outline {
+  border: 1px solid rgba(159, 85, 91, 0.7);
+
+  background: #ffffff;
+  color: var(--th-rose);
+}
+
+.home-page .bf-button-outline:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(122, 72, 72, 0.12);
+}
+
+.home-page .bf-button:focus-visible {
+  outline: 2px solid var(--th-rose);
+  outline-offset: 4px;
+}
+
+.home-page .bf-footnote {
+  font-size: 13px;
+  text-align: center;
+
+  color: var(--th-text);
+}
+
+/* Confirmação (janela nativa <dialog>, sobre o formulário). */
+.home-page .bf-dialog {
+  width: min(520px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: clamp(24px, 4vw, 36px);
+
+  border: 1px solid rgba(214, 168, 96, 0.55);
+  border-radius: 28px;
+
+  background: linear-gradient(160deg, #fffdfb 0%, #fbf1ec 100%);
+  color: var(--th-ink);
+
+  box-shadow: 0 30px 80px rgba(80, 45, 45, 0.28);
+
+  overflow: auto;
+}
+
+.home-page .bf-dialog::backdrop {
+  background: rgba(43, 34, 32, 0.45);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.home-page .bf-dialog[open] {
+  animation: th-pop 0.35s var(--th-ease-soft);
+}
+
+.home-page .bf-dialog h3 {
+  font-family: var(--th-serif);
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 500;
+  text-align: center;
+}
+
+.home-page .bf-dialog-list {
+  margin: 20px 0 16px;
+  padding: 4px 20px;
+
+  border: 1px solid rgba(201, 146, 74, 0.4);
+  border-radius: 18px;
+
+  background: #ffffff;
+}
+
+.home-page .bf-dialog-list div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 2px 16px;
+
+  padding: 12px 0;
+
+  border-bottom: 1px solid rgba(201, 146, 74, 0.25);
+}
+
+.home-page .bf-dialog-list div:last-child {
+  border-bottom: 0;
+}
+
+.home-page .bf-dialog-list dt {
+  flex: none;
+
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  color: var(--th-rose);
+}
+
+.home-page .bf-dialog-list dd {
+  margin: 0 0 0 auto;
+
+  font-size: 15.5px;
+  line-height: 1.5;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.home-page .bf-dialog > .bf-hint {
+  margin-bottom: 18px;
+
+  font-size: 13.5px;
+  text-align: center;
+}
+
+.home-page .bf-send-note {
+  max-width: 560px;
+  margin: 0 auto;
+
+  font-size: 13.5px;
+  text-align: center;
+}
+
+.home-page .bf-send-status:empty {
+  display: none;
+}
+
+.home-page .bf-send-ok {
+  font-size: 14.5px;
+  font-weight: 600;
+  text-align: center;
+
+  color: #3f6b4a;
+}
+
+/* Só aparece se o navegador bloquear a nova aba do WhatsApp. */
+.home-page .bf-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  padding: 18px 20px;
+
+  border: 1px dashed rgba(201, 146, 74, 0.6);
+  border-radius: 18px;
+
+  background: #fffaf3;
+
+  text-align: center;
+}
+
+.home-page .bf-fallback p {
+  font-size: 14.5px;
+  line-height: 1.6;
+
+  color: var(--th-ink);
+}
+
+.home-page .bf-fallback-text {
+  width: 100%;
+  padding: 12px 14px;
+
+  border: 1px solid rgba(159, 85, 91, 0.32);
+  border-radius: 12px;
+
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .home-page .bf-panel {
+    padding: 24px 18px;
+
+    border-radius: 22px;
+  }
+
+  .home-page .bf-grid-2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-page .bf-eyebrow::before,
+  .home-page .bf-eyebrow::after {
+    display: none;
+  }
+
+  .home-page .bf-choices {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-page .bf-choice span {
+    width: 100%;
+    min-width: 0;
+    padding: 0 12px;
+  }
+
+  .home-page .bf-button {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  /* Confirmação compacta: os dois botões aparecem sem rolar, até em 320×640. */
+  .home-page .bf-dialog {
+    padding: 22px 16px 18px;
+
+    border-radius: 22px;
+  }
+
+  .home-page .bf-dialog h3 {
+    font-size: 22px;
+  }
+
+  .home-page .bf-dialog-list {
+    margin: 14px 0 12px;
+    padding: 2px 14px;
+  }
+
+  .home-page .bf-dialog-list div {
+    padding: 8px 0;
+  }
+
+  .home-page .bf-dialog-list dt {
+    font-size: 10.5px;
+  }
+
+  .home-page .bf-dialog-list dd {
+    font-size: 14.5px;
+  }
+
+  .home-page .bf-dialog > .bf-hint {
+    margin-bottom: 12px;
+
+    font-size: 12.5px;
+  }
+
+  .home-page .bf-dialog .bf-actions {
+    gap: 10px;
+  }
+
+  .home-page .bf-dialog .bf-button {
+    min-height: 48px;
+  }
+}
+
+/* =========================
+   RODAPÉ — claro, champanhe, fio dourado
+========================= */
+
+.home-page .footer {
+  background: linear-gradient(180deg, #f3dcd3 0%, #f1d8ce 100%);
+  color: var(--th-ink);
+}
+
+.home-page .footer::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+
+  height: 1px;
+
+  background: linear-gradient(90deg, rgba(201, 146, 74, 0), #c9924a, rgba(201, 146, 74, 0));
+}
+
+.home-page .footer-brand h2 {
+  font-family: var(--th-serif);
+  letter-spacing: -0.02em;
+
+  color: var(--th-ink);
+}
+
+.home-page .footer-brand > span {
+  color: var(--th-rose-deep);
+}
+
+.home-page .footer-brand p,
+.home-page .footer-links a,
+.home-page .footer-contact a,
+.home-page .footer-contact p {
+  color: #5b4843;
+}
+
+.home-page .footer-links h3,
+.home-page .footer-contact h3 {
+  font-family: var(--th-serif);
+
+  color: var(--th-rose-deep);
+}
+
+.home-page .footer-links a:hover,
+.home-page .footer-contact a:hover {
+  color: var(--th-rose-deep);
+}
+
+.home-page .footer-bottom {
+  border-top-color: rgba(159, 85, 91, 0.22);
+}
+
+.home-page .footer-bottom p {
+  color: #5b4843;
+}
+
+/* ---------- Movimento reduzido ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page .reveal {
+    opacity: 1;
+    animation: none !important;
+  }
+
+  .home-page .experience-overlay,
+  .home-page .portfolio-item,
+  .home-page .services .carousel-dot::before,
+  .home-page .booking a {
+    transition: none !important;
+  }
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 900px) {
+  .home-page .booking {
+    padding: 110px 11%;
+  }
+}
+
+@media (max-width: 600px) {
+  .home-page .services {
+    padding: 72px 5% 80px;
+  }
+
+  .home-page .portfolio {
+    padding: 72px 6% 80px;
+  }
+
+  .home-page .booking {
+    padding: 96px 10%;
+  }
+
+  .home-page .booking::before {
+    inset: 44px 4%;
+
+    border-radius: 30px;
+  }
+
+  .home-page .booking .booking-primary,
+  .home-page .booking .booking-secondary {
+    width: 100%;
+  }
+
+  .home-page .services-eyebrow::before,
+  .home-page .services-eyebrow::after {
+    width: 22px;
+  }
+}

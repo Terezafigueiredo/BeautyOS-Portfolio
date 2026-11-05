@@ -1,0 +1,348 @@
+/* =========================
+   ACESSIBILIDADE — componentes de src/components/a11y
+   Classes a11y-: genéricas, sem dependência das páginas. Cores da paleta
+   rosa/nude/dourada, com contraste AA (texto 4,5:1; controles 3:1).
+========================= */
+
+:root {
+  --a11y-ink: #2f2422;
+  --a11y-on-ink: #fff8f3;
+  --a11y-accent: #9f555b;
+  --a11y-accent-deep: #8a4a50;
+  --a11y-gold-line: rgba(201, 146, 74, 0.55);
+}
+
+/* Texto só para leitores de tela. */
+.a11y-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- Pular para o conteúdo ---------- */
+
+.a11y-skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 2000;
+
+  padding: 12px 20px;
+
+  border-radius: 999px;
+  background: var(--a11y-accent);
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
+  /* Fora da tela até receber o foco (sem sombra vazando para dentro). */
+  transform: translateY(calc(-100% - 40px));
+}
+
+.a11y-skip-link:focus {
+  transform: none;
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 4px var(--a11y-accent-deep),
+    0 10px 28px rgba(80, 40, 40, 0.25);
+}
+
+/* Destino do "pular": recebe o foco por script, sem contorno no bloco todo. */
+#conteudo:focus {
+  outline: none;
+}
+
+/* ---------- Legendas (tooltip e ajuda) ---------- */
+
+.a11y-tooltip {
+  position: fixed;
+  z-index: 2100;
+
+  max-width: min(280px, calc(100vw - 16px));
+  padding: 8px 12px;
+
+  border: 1px solid var(--a11y-gold-line);
+  border-radius: 10px;
+  background: var(--a11y-ink);
+  color: var(--a11y-on-ink);
+  box-shadow: 0 12px 30px rgba(43, 34, 32, 0.22);
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.45;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+
+  animation: a11y-tip-in 0.16s ease-out;
+}
+
+.a11y-help-bubble {
+  max-width: min(300px, calc(100vw - 16px));
+  padding: 10px 14px;
+
+  font-size: 14px;
+}
+
+@keyframes a11y-tip-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Rótulo + botão "?" lado a lado, sempre na mesma linha: em telas
+   estreitas quem quebra é o texto do rótulo (em linhas equilibradas), e o
+   "?" continua ao lado dele. */
+.a11y-label-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+
+.a11y-label-row > :first-child {
+  min-width: 0;
+  text-wrap: balance;
+}
+
+.a11y-label-row [hidden] {
+  display: none !important;
+}
+
+.a11y-help-button {
+  position: relative;
+  flex: none;
+
+  width: 24px;
+  height: 24px;
+
+  display: inline-grid;
+  place-items: center;
+
+  margin: 0;
+  padding: 0;
+
+  border: 1px solid var(--a11y-accent);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--a11y-accent-deep);
+
+  font-family: Georgia, serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+
+  cursor: help;
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.a11y-help-button:hover {
+  background: var(--a11y-accent);
+  color: #ffffff;
+}
+
+.a11y-help-button:focus-visible {
+  outline: 2px solid var(--a11y-accent);
+  outline-offset: 2px;
+}
+
+/* No toque, a área do botão chega a 44 × 40 px sem mudar o desenho (na
+   vertical para antes do campo logo abaixo, sem invadir a área dele).
+   A legenda aberta não intercepta toques: tocar no campo que ela cobre já
+   fecha a legenda e ativa o campo, sem precisar de um segundo toque. */
+@media (pointer: coarse) {
+  .a11y-tooltip {
+    pointer-events: none;
+  }
+
+  .a11y-help-button::before {
+    content: "";
+    position: absolute;
+    /* Medido a partir de dentro da borda de 1px: 44 × 40 px no total. */
+    inset: -9px -11px;
+  }
+}
+
+/* ---------- Chave "Legendas de ajuda" ---------- */
+
+.a11y-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  min-height: 36px;
+  padding: 4px 6px;
+
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #5b4843;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.a11y-switch-track {
+  position: relative;
+  flex: none;
+
+  width: 36px;
+  height: 20px;
+
+  border: 1.5px solid var(--a11y-accent);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+
+  transition: background-color 0.25s ease;
+}
+
+.a11y-switch-thumb {
+  position: absolute;
+  top: 50%;
+  left: 3px;
+
+  width: 12px;
+  height: 12px;
+
+  border-radius: 50%;
+  background: var(--a11y-accent);
+
+  transform: translateY(-50%);
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.a11y-switch[aria-checked="true"] .a11y-switch-track {
+  background: var(--a11y-accent);
+}
+
+.a11y-switch[aria-checked="true"] .a11y-switch-thumb {
+  background: #ffffff;
+  transform: translate(16px, -50%);
+}
+
+.a11y-switch:focus-visible {
+  outline: 2px solid var(--a11y-accent);
+  outline-offset: 2px;
+}
+
+.bf-help-toggle,
+.ed-help-toggle {
+  margin-top: 14px;
+}
+
+/* ---------- Pausa das galerias em faixa ---------- */
+
+.a11y-motion-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  min-height: 36px;
+  padding: 0 16px;
+
+  border: 1px solid var(--a11y-accent);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.65);
+  color: var(--a11y-accent-deep);
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.a11y-motion-toggle svg {
+  width: 12px;
+  height: 12px;
+}
+
+.a11y-motion-toggle:hover {
+  background: #a95c62;
+  color: #ffffff;
+}
+
+.a11y-motion-toggle:focus-visible {
+  outline: 2px solid var(--a11y-accent);
+  outline-offset: 3px;
+}
+
+.ed-gallery-controls {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+}
+
+.ed-page .ed-marquee.is-paused > * {
+  animation-play-state: paused !important;
+}
+
+/* Com "menos movimento" a faixa já fica parada: não há o que pausar. */
+@media (prefers-reduced-motion: reduce) {
+  .ed-gallery-controls {
+    display: none;
+  }
+
+  .a11y-tooltip {
+    animation: none;
+  }
+
+  .a11y-switch-track,
+  .a11y-switch-thumb {
+    transition: none;
+  }
+}
+
+/* ---------- Alvos de toque ---------- */
+
+/* "Voltar para o início": área clicável maior (24 px+) sem mudar o desenho. */
+.ed-page .back-link {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+}
+
+.ed-page .back-link::after {
+  content: "";
+  position: absolute;
+  inset: -8px -10px;
+}
+
+/* ---------- Foco não encoberto (WCAG 2.4.11) ---------- */
+
+/* Ao navegar com Tab/Shift+Tab, o navegador rola o item focado para dentro
+   da tela; esta margem o deixa abaixo do cabeçalho fixo em vez de atrás
+   dele. Vale só para itens focáveis: âncoras de seção não mudam. */
+:is(.home-page, .ed-page, .privacy-page) :is(a[href], button, input, select, textarea) {
+  scroll-margin-top: 112px;
+  scroll-margin-bottom: 24px;
+}

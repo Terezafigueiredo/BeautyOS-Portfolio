@@ -1,0 +1,134 @@
+-- =========================================================
+-- BeautyOS — Migration 005: acesso mínimo da Edge Function
+-- "booking-request" à RPC create_booking_request (Fase 2.1)
+-- =========================================================
+-- ESTA MIGRATION NÃO FOI EXECUTADA. Arquivo criado apenas para
+-- revisão local.
+--
+-- CONTEXTO: as migrations 003 e 004 deixaram deliberadamente
+-- public.create_booking_request(...) e
+-- public.check_and_record_rate_limit(...) sem EXECUTE para
+-- NENHUMA role (nem anon, nem authenticated, nem service_role) —
+-- ver cabeçalho dessas duas migrations. Essa foi uma decisão
+-- proposital de esperar a arquitetura de acesso backend->RPC ser
+-- decidida antes de abrir qualquer caminho de chamada.
+--
+-- DECISÃO TOMADA NESTA FASE (ver análise completa na conversa):
+-- A Edge Function "booking-request" vai chamar
+-- create_booking_request(...) através do cliente administrativo
+-- (service_role) já disponibilizado pelo wrapper @supabase/server
+-- como "ctx.supabaseAdmin" — NÃO através de "anon"/"authenticated",
+-- e NÃO através de uma role dedicada nova (avaliada e descartada
+-- nesta fase por complexidade operacional ainda não validada contra
+-- o projeto real — ver análise completa, seção "Opção C").
+--
+-- Por isso, o único privilégio novo concedido aqui é EXECUTE em
+-- create_booking_request para "service_role" — nada além disso.
+--
+-- O QUE ESTA MIGRATION FAZ:
+-- - Concede EXECUTE em public.create_booking_request(...) (assinatura
+--   exata, igual à usada nas migrations 002/003/004) para
+--   "service_role".
+--
+-- O QUE ESTA MIGRATION NÃO FAZ (de propósito):
+-- - NÃO concede EXECUTE em create_booking_request para "anon" nem
+--   para "authenticated" — nenhuma delas pode chamar a RPC antes ou
+--   depois desta migration. O navegador nunca tem credencial que
+--   alcance esta função: a chave publishable (usada pelo navegador)
+--   autentica a Edge Function, nunca autentica diretamente contra
+--   PostgREST como "service_role".
+-- - NÃO concede EXECUTE em check_and_record_rate_limit(...) para
+--   NENHUMA role, incluindo service_role. create_booking_request já
+--   chama essa função internamente (ver migration 002, seção 6) e
+--   essa chamada interna continua funcionando mesmo com
+--   check_and_record_rate_limit fechada para todo mundo, porque
+--   ambas rodam como SECURITY DEFINER sob o mesmo dono — o chamador
+--   externo (service_role, via Edge Function) nunca precisa, e por
+--   isso nunca recebe, EXECUTE direto nessa função. Isso evita que
+--   qualquer código futuro rodando com a credencial service_role
+--   chame check_and_record_rate_limit isoladamente, fora do fluxo de
+--   negócio de create_booking_request.
+-- - NÃO recria, nem altera o corpo, de create_booking_request nem de
+--   check_and_record_rate_limit.
+-- - NÃO altera nenhuma tabela, RLS, policy, dado ou default privilege.
+-- - NÃO altera o atributo BYPASSRLS de service_role (é um atributo
+--   de plataforma, já existente, fora do escopo de uma migration de
+--   projeto — ver risco residual documentado na análise completa).
+-- - NÃO é, por si só, suficiente para a Edge Function começar a
+--   persistir solicitações de verdade: um BLOCKER de idempotência
+--   identificado na análise desta fase (client_request_id repetido
+--   com payload DIFERENTE sendo aceito silenciosamente como se fosse
+--   um retry idêntico) continua sem correção, e essa correção não
+--   faz parte desta migration — ver proposta de correção na análise,
+--   candidata a uma migration 006 separada.
+-- - Nenhum secret, chave, token, IP ou credencial é adicionado.
+-- =========================================================
+
+begin;
+
+grant execute on function public.create_booking_request(
+  uuid, uuid, public.booking_location, date, time,
+  text, text, text, text, text, text, text, integer
+) to service_role;
+
+commit;
+
+
+-- =========================================================
+-- CHECKLIST DE PRÉ-VOO / PÓS-VOO (NÃO verificado nesta etapa)
+-- =========================================================
+-- PRÉ-VOO — confirmar que service_role não é superusuário (se
+-- fosse, qualquer GRANT/REVOKE de EXECUTE seria irrelevante na
+-- prática, já que superusuário ignora toda checagem de privilégio):
+--
+--   select rolname, rolsuper, rolbypassrls
+--   from pg_roles
+--   where rolname = 'service_role';
+--
+-- Esperado: rolsuper = false (rolbypassrls = true é esperado e
+-- INDEPENDENTE deste GRANT — BYPASSRLS afeta RLS em tabelas, nunca
+-- EXECUTE em funções; é exatamente por isso que, antes desta
+-- migration, service_role podia ler/escrever direto em qualquer
+-- tabela via RLS bypass mas ainda não conseguia chamar
+-- create_booking_request — são dois mecanismos independentes).
+--
+-- PÓS-VOO — confirmar o ACL final da função (deve conter agora
+-- service_role, e NADA além disso: nem anon, nem authenticated, nem
+-- um "=" solto indicando PUBLIC):
+--
+--   select
+--     p.proname,
+--     pg_get_function_identity_arguments(p.oid) as arguments,
+--     p.proacl,
+--     has_function_privilege('anon', p.oid, 'execute') as anon_can_execute,
+--     has_function_privilege('authenticated', p.oid, 'execute') as authenticated_can_execute,
+--     has_function_privilege('service_role', p.oid, 'execute') as service_role_can_execute
+--   from pg_proc p
+--   where p.pronamespace = 'public'::regnamespace
+--     and p.proname = 'create_booking_request';
+--
+-- Esperado: anon_can_execute = false, authenticated_can_execute =
+-- false, service_role_can_execute = true.
+--
+-- PÓS-VOO — confirmar que check_and_record_rate_limit CONTINUA
+-- fechada para as três roles reais (nenhuma mudança esperada aqui):
+--
+--   select
+--     has_function_privilege('anon', 'public.check_and_record_rate_limit(text, text, integer, integer)', 'execute') as anon_can_execute,
+--     has_function_privilege('authenticated', 'public.check_and_record_rate_limit(text, text, integer, integer)', 'execute') as authenticated_can_execute,
+--     has_function_privilege('service_role', 'public.check_and_record_rate_limit(text, text, integer, integer)', 'execute') as service_role_can_execute;
+--
+-- Esperado: as três "false".
+--
+-- PÓS-VOO — confirmar, com a chave publishable (nunca service_role),
+-- que uma chamada direta à RPC via PostgREST como "anon" continua
+-- sendo rejeitada (42501 / insufficient_privilege, ou equivalente
+-- "permission denied for function create_booking_request"):
+--
+--   curl -X POST "$SUPABASE_URL/rest/v1/rpc/create_booking_request" \
+--     -H "apikey: $PUBLISHABLE_KEY" \
+--     -H "Content-Type: application/json" \
+--     -d '{}'
+--
+-- Esperado: erro de permissão, nunca uma execução da função.
+-- =========================================================

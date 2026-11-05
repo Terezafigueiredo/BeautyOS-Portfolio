@@ -1,0 +1,1255 @@
+/* =========================
+   PÁGINAS DE SERVIÇO — CAMADA EDITORIAL (Social, Debutante, Noiva)
+   Mesma linguagem da Home (tokens --th-*, Playfair, dourado, fundo
+   animado). Tudo dentro de .ed-page: a página 404, que reaproveita as
+   classes service-page*, não é afetada. Marcação em
+   src/components/editorial/ (EditorialHero, EditorialSection).
+   Animações usam só transform/opacity; entradas usam fill-mode
+   "backwards" para não travar o transform dos efeitos de hover.
+
+   Fundo contínuo: um único degradê na página inteira; as seções são
+   transparentes, então não há troca brusca de cor entre elas.
+   Cada página ajusta só as variáveis --ed-* (fim do arquivo); os valores
+   padrão abaixo são os da Social.
+========================= */
+
+.ed-page {
+  --th-rose-deep: #8a4a50;
+  --ed-gold: #c9924a;
+  --ed-bg-0: #fdf7f2;
+  --ed-bg-1: #fbede7;
+  --ed-bg-2: #fcf3ee;
+  --ed-bg-3: #fbeee8;
+  --ed-bg-4: #f9e8e1;
+  --ed-bg-5: #f6e0d8;
+  --ed-glow-a: 249, 210, 204;
+  --ed-glow-b: 240, 206, 160;
+  --ed-glow-c: 222, 140, 152;
+
+  overflow-x: clip;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--ed-bg-0) 0%,
+      var(--ed-bg-1) 16%,
+      var(--ed-bg-2) 34%,
+      var(--ed-bg-3) 52%,
+      var(--ed-bg-4) 74%,
+      var(--ed-bg-5) 100%
+    );
+}
+
+.ed-page > section {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+
+  background: transparent;
+}
+
+/* As luzes do fundo animado se dissolvem nas bordas de cada seção, sem
+   formar uma linha na passagem para a seguinte. */
+.ed-page .ambient {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 9%, #000 91%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 9%, #000 91%, transparent);
+}
+
+/* ---------- Entrada ao rolar ---------- */
+
+.ed-page section:not(.is-revealed) .reveal {
+  opacity: 0;
+}
+
+.ed-page .is-revealed .reveal {
+  animation: th-rise 0.9s var(--th-ease-soft) var(--rd, 0s) backwards;
+}
+
+/* ---------- Títulos editoriais ---------- */
+
+.ed-page .ed-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+
+  font-family: inherit;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+
+  color: var(--th-rose-deep);
+}
+
+.ed-page .ed-eyebrow::before,
+.ed-page .ed-gallery .ed-eyebrow::after,
+.ed-page .ed-packages .ed-eyebrow::after {
+  content: "";
+
+  width: 36px;
+  height: 1px;
+
+  background: linear-gradient(90deg, rgba(201, 146, 74, 0), var(--ed-gold));
+}
+
+.ed-page .ed-gallery .ed-eyebrow::after,
+.ed-page .ed-packages .ed-eyebrow::after {
+  background: linear-gradient(90deg, var(--ed-gold), rgba(201, 146, 74, 0));
+}
+
+/* Rosa mais escuro sobre os nudes mais fortes do fim da página (AA). */
+.ed-page .ed-packages .ed-eyebrow {
+  color: var(--th-rose-deep);
+}
+
+.ed-page .ed-heading h2,
+.ed-page .ed-packages h2 {
+  margin-top: 14px;
+
+  font-family: var(--th-serif);
+  font-size: clamp(32px, 3.8vw, 48px);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+
+  color: var(--th-ink);
+}
+
+/* Ornamento fino sob os títulos: traço dourado com um losango. */
+.ed-page .ed-heading h2::after,
+.ed-page .ed-packages h2::after {
+  content: "";
+
+  display: block;
+
+  width: 120px;
+  height: 9px;
+  margin: 18px auto 0;
+
+  background:
+    linear-gradient(45deg, transparent 42%, var(--ed-gold) 43% 57%, transparent 58%) center / 9px 9px no-repeat,
+    linear-gradient(90deg, rgba(201, 146, 74, 0), rgba(201, 146, 74, 0.8) 40% 60%, rgba(201, 146, 74, 0)) center / 100% 1px no-repeat;
+}
+
+.ed-page .ed-heading p,
+.ed-page .ed-packages > p {
+  color: var(--th-text);
+}
+
+/* ---------- Botões ---------- */
+
+.ed-page .ed-button,
+.ed-page .service-book-button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 52px;
+  padding: 0 32px;
+
+  border: none;
+  border-radius: 999px;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+
+  color: #ffffff;
+  background: linear-gradient(135deg, #ad5f65 0%, #974d53 100%);
+  box-shadow: 0 14px 30px rgba(151, 77, 83, 0.28);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.35s var(--th-ease-soft),
+    box-shadow 0.35s ease;
+}
+
+/* Reflexo que atravessa o botão no hover/foco. */
+.ed-page .ed-button::after,
+.ed-page .service-book-button::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 236, 214, 0.45) 50%, transparent 70%);
+
+  transform: translateX(-120%);
+  transition: transform 0.8s ease;
+}
+
+.ed-page .ed-button:hover,
+.ed-page .ed-button:focus-visible,
+.ed-page .service-book-button:hover,
+.ed-page .service-book-button:focus-visible {
+  background: linear-gradient(135deg, #ad5f65 0%, #974d53 100%);
+  transform: translateY(-3px);
+  box-shadow:
+    0 18px 40px rgba(151, 77, 83, 0.38),
+    0 0 0 6px rgba(201, 146, 74, 0.14);
+}
+
+.ed-page .ed-button:hover::after,
+.ed-page .ed-button:focus-visible::after,
+.ed-page .service-book-button:hover::after,
+.ed-page .service-book-button:focus-visible::after {
+  transform: translateX(120%);
+}
+
+.ed-page .ed-button:active,
+.ed-page .service-book-button:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.ed-page a:focus-visible,
+.ed-page button:focus-visible {
+  outline: 2px solid var(--th-rose);
+  outline-offset: 4px;
+}
+
+/* =========================
+   CAPA
+========================= */
+
+.ed-page .ed-hero {
+  min-height: auto;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 88px);
+
+  padding: clamp(40px, 5vw, 72px) 8% clamp(64px, 7vw, 104px);
+
+  text-align: left;
+}
+
+.ed-hero-content {
+  position: relative;
+  z-index: 2;
+
+  max-width: 600px;
+}
+
+.ed-hero-content > * {
+  animation: th-from-left 0.9s var(--th-ease-soft) backwards;
+}
+
+.ed-hero-content > :nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.ed-hero-content > :nth-child(2) {
+  animation-delay: 0.32s;
+}
+
+.ed-hero-content > :nth-child(3) {
+  animation-delay: 0.48s;
+}
+
+.ed-hero-content > :nth-child(4) {
+  animation-delay: 0.58s;
+}
+
+.ed-hero-content > .ed-button {
+  animation: th-rise 0.9s var(--th-ease-soft) 0.75s backwards;
+}
+
+.ed-page .ed-hero h1 {
+  max-width: 15ch;
+  margin-top: 18px;
+
+  font-family: var(--th-serif);
+  font-size: clamp(38px, 4.3vw, 64px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+
+  color: var(--th-ink);
+}
+
+.ed-accent {
+  color: #a95c62;
+  background: linear-gradient(100deg, #b8686f 0%, #a3575e 55%, #a87553 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ed-page .ed-hero p {
+  max-width: 540px;
+  margin-top: 20px;
+  margin-inline: 0;
+
+  font-size: 16px;
+  line-height: 1.8;
+
+  color: var(--th-text);
+}
+
+.ed-page .ed-hero .ed-button {
+  margin-top: 34px;
+}
+
+/* ---------- Palco da foto de destaque ---------- */
+
+.ed-hero-stage {
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+
+  /* Cabe na primeira tela no desktop. */
+  width: min(100%, 460px, max(320px, calc((100svh - 92px - 100px) * 0.8)));
+  aspect-ratio: 4 / 5;
+
+  /* Medidas internas em cqw = % da largura do palco. */
+  container-type: inline-size;
+}
+
+.ed-hero-deco {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+}
+
+.ed-hero-glow {
+  position: absolute;
+  inset: -12% -16%;
+
+  background:
+    radial-gradient(42% 40% at 50% 40%, rgba(var(--ed-glow-a), 0.95), rgba(var(--ed-glow-a), 0) 72%),
+    radial-gradient(36% 34% at 70% 72%, rgba(var(--ed-glow-b), 0.7), rgba(var(--ed-glow-b), 0) 70%),
+    radial-gradient(30% 30% at 24% 70%, rgba(var(--ed-glow-c), 0.35), rgba(var(--ed-glow-c), 0) 70%);
+
+  animation:
+    th-fade 1.4s ease-out 0.3s backwards,
+    ed-breathe 9s ease-in-out 1.7s infinite alternate;
+}
+
+/* Arcos finos dourados que acompanham a moldura. */
+.ed-hero-arcs {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: visible;
+}
+
+.ed-hero-arcs path,
+.ed-hero-arcs ellipse {
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+/* pathLength="1" no SVG: o traço "desenha" o arco na entrada. */
+.ed-hero-arcs path {
+  stroke-dasharray: 1;
+}
+
+.ed-hero-arcs path:nth-child(1) {
+  stroke: rgba(201, 146, 74, 0.7);
+
+  animation: ed-draw 2.2s var(--th-ease-out) 0.7s backwards;
+}
+
+.ed-hero-arcs path:nth-child(2) {
+  stroke: rgba(201, 146, 74, 0.32);
+
+  animation: ed-draw 2.6s var(--th-ease-out) 1s backwards;
+}
+
+.ed-hero-arcs ellipse {
+  stroke: rgba(222, 140, 152, 0.4);
+  stroke-dasharray: 2 10;
+
+  transform-box: fill-box;
+  transform-origin: center;
+
+  animation:
+    th-fade 1.6s ease-out 1.2s backwards,
+    ed-sway 14s ease-in-out 2.8s infinite alternate;
+}
+
+.ed-hero-spark {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+
+  width: var(--s);
+  height: var(--s);
+
+  border-radius: 50%;
+
+  background: radial-gradient(circle, #fff3d6 0%, #dfa955 45%, rgba(210, 160, 80, 0) 75%);
+  box-shadow: 0 0 calc(var(--s) * 2.4) rgba(232, 182, 100, 0.65);
+
+  translate: -50% -50%;
+
+  animation:
+    th-fade 1s ease-out calc(1.2s + var(--d)) backwards,
+    ed-twinkle 4.2s ease-in-out calc(1.2s + var(--d)) infinite;
+}
+
+/* Foto: arco com moldura dourada, flutuando suavemente. A imagem é
+   exibida sem nenhum filtro; só a base recebe um véu claro. */
+.ed-hero-figure {
+  position: absolute;
+  left: 12cqw;
+  top: 12cqw;
+
+  width: 76cqw;
+  aspect-ratio: 3 / 4;
+
+  margin: 0;
+
+  animation: ed-float 9s ease-in-out 2.4s infinite alternate;
+}
+
+.ed-hero-frame {
+  position: absolute;
+  inset: -2.4cqw;
+
+  border: 1.5px solid rgba(233, 194, 124, 0.85);
+  border-radius: 40.4cqw 40.4cqw 30px 30px;
+
+  box-shadow:
+    0 0 34px rgba(240, 200, 130, 0.45),
+    inset 0 0 22px rgba(255, 235, 200, 0.35);
+
+  pointer-events: none;
+
+  animation: th-fade 1.2s ease-out 1s backwards;
+}
+
+.ed-hero-photo {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+  border-radius: 38cqw 38cqw 26px 26px;
+
+  box-shadow:
+    0 34px 70px rgba(120, 60, 62, 0.24),
+    0 10px 24px rgba(120, 60, 62, 0.12);
+
+  animation: ed-photo-in 1.5s var(--th-ease-out) 0.35s backwards;
+}
+
+.ed-hero-photo img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: 50% 30%;
+
+  animation: th-photo-zoom 2.4s var(--th-ease-out) 0.35s backwards;
+}
+
+.ed-hero-photo::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(to bottom, rgba(251, 237, 231, 0) 82%, rgba(251, 237, 231, 0.4) 100%);
+
+  pointer-events: none;
+}
+
+/* Fora da tela, a capa não anima em segundo plano. */
+.ed-hero.is-offscreen .ed-hero-deco *,
+.ed-hero.is-offscreen .ed-hero-figure {
+  animation-play-state: paused;
+}
+
+/* =========================
+   GALERIA
+========================= */
+
+.ed-page .ed-gallery {
+  padding-top: clamp(64px, 8vw, 100px);
+}
+
+.ed-page .ed-heading {
+  margin-bottom: 20px;
+}
+
+/* Arco fino ao fundo, atrás do título. */
+.ed-page .ed-gallery::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 28px;
+
+  width: min(760px, 92%);
+  aspect-ratio: 2 / 1;
+
+  border: 1px solid rgba(201, 146, 74, 0.22);
+  border-bottom: none;
+  border-radius: 999px 999px 0 0;
+
+  translate: -50% 0;
+
+  -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent 75%);
+  mask-image: linear-gradient(to bottom, #000 30%, transparent 75%);
+
+  pointer-events: none;
+}
+
+/* Faixa de luz rosada atrás das fotos e bordas que se dissolvem. */
+.ed-page .ed-marquee {
+  position: relative;
+
+  margin-top: 30px;
+  padding: 20px 0 34px;
+
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+
+.ed-page .ed-gallery-card {
+  position: relative;
+
+  box-shadow:
+    0 20px 44px rgba(120, 66, 66, 0.14),
+    0 0 0 1px rgba(233, 194, 124, 0.35);
+
+  transition: box-shadow 0.5s ease;
+}
+
+/* Filete champanhe interno, que se acende no hover. */
+.ed-page .ed-gallery-card::after {
+  content: "";
+
+  position: absolute;
+  inset: 8px;
+
+  border: 1px solid rgba(255, 240, 220, 0.45);
+  border-radius: 20px;
+
+  opacity: 0.6;
+
+  pointer-events: none;
+
+  transition: opacity 0.5s ease;
+}
+
+.ed-page .ed-gallery-card:hover {
+  box-shadow:
+    0 24px 50px rgba(120, 66, 66, 0.2),
+    0 0 0 1px rgba(233, 194, 124, 0.7),
+    0 0 30px rgba(240, 200, 130, 0.35);
+}
+
+.ed-page .ed-gallery-card:hover::after {
+  opacity: 1;
+}
+
+/* =========================
+   PACOTES
+========================= */
+
+.ed-page .ed-packages {
+  padding-top: clamp(64px, 8vw, 100px);
+  padding-bottom: clamp(88px, 10vw, 130px);
+}
+
+.ed-page .ed-accordion {
+  gap: 16px;
+}
+
+.ed-page .ed-card {
+  position: relative;
+
+  border: 1px solid rgba(201, 146, 74, 0.26);
+  border-radius: 22px;
+
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 246, 241, 0.88));
+  box-shadow: 0 10px 28px rgba(120, 70, 70, 0.07);
+
+  transition:
+    transform 0.4s var(--th-ease-soft),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+/* Filete dourado à esquerda: surge no hover, foco ou quando aberto. */
+.ed-page .ed-card::before {
+  content: "";
+
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 18px;
+  bottom: 18px;
+
+  width: 3px;
+
+  border-radius: 0 3px 3px 0;
+
+  background: linear-gradient(to bottom, #e9c27c, var(--ed-gold), #b8686f);
+
+  transform: scaleY(0);
+  transition: transform 0.45s var(--th-ease-soft);
+
+  pointer-events: none;
+}
+
+.ed-page .ed-card:focus-within,
+.ed-page .ed-card.is-open {
+  border-color: rgba(201, 146, 74, 0.55);
+  box-shadow:
+    0 18px 40px rgba(120, 70, 70, 0.11),
+    0 0 0 4px rgba(201, 146, 74, 0.08);
+}
+
+.ed-page .ed-card:focus-within::before,
+.ed-page .ed-card.is-open::before {
+  transform: scaleY(1);
+}
+
+/* Elevação só em aparelhos com mouse: no toque nada fica "preso". */
+@media (hover: hover) {
+  .ed-page .ed-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(201, 146, 74, 0.5);
+    box-shadow:
+      0 18px 40px rgba(120, 70, 70, 0.12),
+      0 0 0 4px rgba(201, 146, 74, 0.08);
+  }
+
+  .ed-page .ed-card:hover::before {
+    transform: scaleY(1);
+  }
+}
+
+.ed-page .ed-card-trigger {
+  gap: 18px;
+
+  padding: 24px 28px;
+
+  font-family: var(--th-serif);
+  font-size: 21px;
+  text-align: left;
+
+  transition: background-color 0.35s ease;
+}
+
+.ed-page .ed-card-trigger:hover {
+  background-color: rgba(249, 230, 226, 0.45);
+}
+
+.ed-page .ed-card-trigger:focus-visible {
+  outline-offset: -4px;
+  border-radius: 22px;
+}
+
+.ed-card-index {
+  flex: 0 0 auto;
+
+  font-family: var(--th-serif);
+  font-size: 15px;
+  font-style: italic;
+
+  /* Dourado escuro: legível sobre o cartão claro. */
+  color: #8c6129;
+}
+
+.ed-card-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.ed-page .accordion-icon {
+  flex: 0 0 auto;
+
+  display: grid;
+  place-items: center;
+
+  width: 38px;
+  height: 38px;
+
+  border: 1px solid rgba(201, 146, 74, 0.45);
+  border-radius: 50%;
+
+  font-size: 22px;
+  line-height: 1;
+
+  color: var(--th-rose);
+
+  transition:
+    transform 0.45s var(--th-ease-soft),
+    background-color 0.35s ease,
+    color 0.35s ease;
+}
+
+.ed-page .ed-card-trigger:hover .accordion-icon {
+  transform: rotate(90deg);
+}
+
+.ed-page .is-open .accordion-icon {
+  color: #ffffff;
+  background: linear-gradient(135deg, #ad5f65, #974d53);
+  border-color: transparent;
+}
+
+.ed-page .ed-card-content {
+  border-top-color: rgba(201, 146, 74, 0.2);
+
+  animation: ed-open 0.5s var(--th-ease-soft) backwards;
+}
+
+.ed-page .service-description,
+.ed-page .service-details-grid ul {
+  color: var(--th-text);
+}
+
+.ed-page .service-details-grid h3 {
+  font-family: var(--th-serif);
+}
+
+.ed-page .service-details-grid li::marker {
+  color: var(--ed-gold);
+}
+
+.ed-page .location-button {
+  min-height: 46px;
+
+  border-color: rgba(159, 85, 91, 0.6);
+
+  font-family: inherit;
+  font-weight: 600;
+
+  color: var(--th-rose);
+  background: rgba(255, 255, 255, 0.6);
+
+  transition:
+    transform 0.3s var(--th-ease-soft),
+    background-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.ed-page .location-button:hover {
+  background-color: #ffffff;
+  box-shadow: 0 8px 18px rgba(122, 72, 72, 0.1);
+}
+
+.ed-page .location-button:active {
+  transform: scale(0.97);
+}
+
+.ed-page .location-button.active {
+  border-color: transparent;
+
+  color: #ffffff;
+  background: linear-gradient(135deg, #ad5f65, #974d53);
+  box-shadow: 0 10px 22px rgba(151, 77, 83, 0.25);
+}
+
+.ed-page .selected-price {
+  border-color: rgba(201, 146, 74, 0.35);
+
+  background: linear-gradient(135deg, #fffdfb, #fbefe6);
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.6);
+
+  animation: th-rise 0.5s var(--th-ease-soft) backwards;
+}
+
+.ed-page .selected-price span {
+  color: var(--th-text);
+}
+
+.ed-page .selected-price strong {
+  font-family: var(--th-serif);
+
+  color: var(--th-rose-deep);
+}
+
+.ed-page .service-book-button {
+  margin-top: 30px;
+
+  animation: th-rise 0.5s var(--th-ease-soft) 0.1s backwards;
+}
+
+/* =========================
+   DEBUTANTE E NOIVA — PEÇAS PRÓPRIAS
+   (a Social não usa nenhuma destas classes)
+========================= */
+
+/* Faixa "Voltar para o início", transparente sobre o degradê. */
+.ed-page .service-topbar {
+  padding-bottom: 0;
+
+  background: transparent;
+}
+
+.ed-page .back-link {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+
+  color: var(--th-rose-deep);
+
+  transition: color 0.3s ease;
+}
+
+.ed-page .back-link:hover {
+  color: #6e3a40;
+}
+
+/* Selo da capa ("15 anos", "seu grande dia"): canto inferior esquerdo do
+   arco, sobre o vestido/fundo — longe do rosto. Medidas em cqw do palco. */
+.ed-hero-badge {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  bottom: 3cqw;
+
+  width: 25cqw;
+  aspect-ratio: 1;
+
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 2px;
+
+  border: 1px solid rgba(201, 146, 74, 0.55);
+  border-radius: 50%;
+
+  text-align: center;
+
+  background: radial-gradient(circle at 35% 30%, #fffdf9, #fbefe6 72%);
+  box-shadow:
+    0 16px 34px rgba(120, 70, 60, 0.16),
+    inset 0 0 0 5px rgba(255, 255, 255, 0.7);
+
+  animation: th-pop 0.9s var(--th-ease-soft) 1.6s backwards;
+}
+
+.ed-hero-badge span {
+  font-family: var(--th-serif);
+  font-size: 9cqw;
+  line-height: 1;
+
+  color: var(--th-rose-deep);
+}
+
+.ed-hero-badge small {
+  max-width: 18cqw;
+
+  font-family: var(--th-serif);
+  font-size: max(11px, 3cqw);
+  font-style: italic;
+  line-height: 1.15;
+
+  color: var(--th-text);
+}
+
+/* Pacotes: rótulo com subtítulo (Essencial, Experiência…) e nome. */
+.ed-page .ed-packages .ed-heading {
+  margin-bottom: 50px;
+}
+
+.ed-card-label {
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ed-page .ed-card-subtitle {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+
+  color: var(--th-rose);
+}
+
+.ed-page .ed-card-label .ed-card-title {
+  font-family: var(--th-serif);
+
+  color: var(--th-ink);
+}
+
+/* Pacote Ouro: champanhe dourado, com um brilho que percorre o topo. */
+.ed-page .ed-card.ed-card-gold {
+  border-color: rgba(201, 146, 74, 0.6);
+
+  background: linear-gradient(135deg, #fffdf8 0%, #fff6e6 55%, #fbeedd 100%);
+  box-shadow: 0 18px 44px rgba(151, 112, 48, 0.14);
+}
+
+.ed-page .ed-card.ed-card-gold::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 45%;
+  height: 2px;
+
+  background: linear-gradient(90deg, rgba(233, 194, 124, 0), #e9c27c, rgba(233, 194, 124, 0));
+
+  animation: ed-shimmer 6s ease-in-out 1s infinite;
+
+  pointer-events: none;
+}
+
+.ed-page .ed-card-gold .ed-card-subtitle,
+.ed-page .ed-card-gold .ed-card-index {
+  color: #7f5822;
+}
+
+.ed-page .ed-card-gold .ed-card-label .ed-card-title {
+  color: #5e4421;
+}
+
+.ed-page .ed-card-gold .accordion-icon {
+  border-color: rgba(201, 146, 74, 0.65);
+
+  color: #7f5822;
+}
+
+.ed-page .ed-card-gold.is-open .accordion-icon {
+  color: #ffffff;
+  background: linear-gradient(135deg, #c9924a, #9c6c2b);
+}
+
+.ed-page .ed-card-gold .selected-price strong {
+  color: #74531f;
+}
+
+.ed-page :is(.debutante-duration, .bride-duration) {
+  font-family: var(--th-serif);
+  font-style: italic;
+
+  color: var(--th-text);
+}
+
+/* Galerias de Debutante e Noiva: cartões com raio 24px (18px no
+   celular); o filete interno acompanha. */
+.ed-page :is(.debutante-carousel-card, .bride-gallery-card)::after {
+  border-radius: 17px;
+}
+
+/* =========================
+   PALETAS POR PÁGINA (só variáveis)
+========================= */
+
+/* Debutante: rosa romântico, dourado e champanhe. */
+.ed-page.debutante-page {
+  --ed-bg-0: #fdf6f6;
+  --ed-bg-1: #fbe9ee;
+  --ed-bg-2: #fdf3f5;
+  --ed-bg-3: #fbecef;
+  --ed-bg-4: #f9e5e9;
+  --ed-bg-5: #f5dde2;
+  --ed-glow-a: 248, 205, 215;
+  --ed-glow-b: 240, 206, 160;
+  --ed-glow-c: 214, 128, 160;
+}
+
+.debutante-page .ed-accent {
+  background-image: linear-gradient(100deg, #b2627c 0%, #a3575e 55%, #a6705a 100%);
+}
+
+/* Noiva: champanhe, pérola, nude e dourado; rosa só como acento. */
+.ed-page.bride-page {
+  --ed-bg-0: #fdfaf6;
+  --ed-bg-1: #f9f0e7;
+  --ed-bg-2: #fcf6f0;
+  --ed-bg-3: #f9efe6;
+  --ed-bg-4: #f6e9de;
+  --ed-bg-5: #f2e2d4;
+  --ed-glow-a: 246, 226, 204;
+  --ed-glow-b: 236, 208, 160;
+  --ed-glow-c: 232, 182, 178;
+}
+
+.bride-page .ed-accent {
+  background-image: linear-gradient(100deg, #a8656a 0%, #9c6150 50%, #93683f 100%);
+}
+
+/* Partículas pérola/champanhe ganham brilho para continuarem visíveis
+   sobre o fundo claro. */
+.bride-page .ambient-particle.ambient-tone-champagne:not(.ambient-depth-4) {
+  background: radial-gradient(circle, #ffffff 0%, #ead2a6 45%, rgba(234, 210, 166, 0) 74%);
+  box-shadow: 0 0 calc(var(--s) * 2.4) rgba(226, 190, 130, 0.55);
+}
+
+/* =========================
+   KEYFRAMES
+========================= */
+
+@keyframes ed-breathe {
+  to {
+    opacity: 0.75;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes ed-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes ed-sway {
+  from {
+    transform: rotate(-5deg);
+  }
+
+  to {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes ed-twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.7);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes ed-float {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes ed-photo-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+}
+
+@keyframes ed-shimmer {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  60%,
+  100% {
+    opacity: 0;
+    transform: translateX(230%);
+  }
+}
+
+@keyframes ed-open {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+/* =========================
+   MOVIMENTO REDUZIDO
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .ed-page .reveal,
+  .ed-page section:not(.is-revealed) .reveal {
+    opacity: 1;
+    animation: none !important;
+  }
+
+  .ed-hero-content > *,
+  .ed-hero-deco *,
+  .ed-hero-badge,
+  .ed-page .ed-card-gold::after,
+  .ed-page .debutante-carousel-track,
+  .ed-page .bride-gallery-track,
+  .ed-hero-figure,
+  .ed-hero-frame,
+  .ed-hero-photo,
+  .ed-hero-photo img,
+  .ed-page .ed-card-content,
+  .ed-page .selected-price,
+  .ed-page .service-book-button {
+    animation: none !important;
+  }
+
+  .ed-page .ed-card,
+  .ed-page .ed-card::before,
+  .ed-page .accordion-icon,
+  .ed-page .ed-button,
+  .ed-page .ed-button::after,
+  .ed-page .service-book-button::after,
+  .ed-page .location-button,
+  .ed-page .ed-gallery-card {
+    transition: none !important;
+  }
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 1100px) {
+  .ed-page .ed-hero {
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+}
+
+/* Coluna única: título, foto de destaque e, abaixo dela, os textos e o
+   botão. A ordem no HTML (texto → foto) não muda; o bloco de texto vira
+   itens da própria grade (display: contents) só para reordenar. */
+@media (max-width: 900px) {
+  .ed-page .ed-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+
+    padding: 40px 6% 72px;
+  }
+
+  .ed-hero-content {
+    display: contents;
+  }
+
+  .ed-hero-content > * {
+    max-width: 640px;
+  }
+
+  .ed-hero-content > :nth-child(1) {
+    justify-self: start;
+  }
+
+  .ed-hero-content > :nth-child(n + 3) {
+    order: 2;
+  }
+
+  .ed-page .ed-hero .ed-button {
+    justify-self: start;
+  }
+
+  .ed-hero-stage {
+    order: 1;
+
+    width: min(84%, 400px);
+    margin: 28px 0 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ed-page .ed-hero {
+    padding: 32px 20px 60px;
+  }
+
+  .ed-page .ed-hero .ed-button {
+    justify-self: stretch;
+  }
+
+  .ed-page .ed-hero h1 {
+    font-size: clamp(31px, 8.6vw, 40px);
+  }
+
+  .ed-page .ed-hero p {
+    font-size: 15px;
+  }
+
+  .ed-page .ed-eyebrow {
+    gap: 10px;
+
+    font-size: 11px;
+    letter-spacing: 0.26em;
+  }
+
+  .ed-page .ed-eyebrow::before,
+  .ed-page .ed-eyebrow::after {
+    width: 24px;
+  }
+
+  .ed-hero-stage {
+    width: min(90%, 340px);
+  }
+
+  .ed-page .ed-gallery,
+  .ed-page .ed-packages {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .ed-page .ed-gallery-card::after {
+    border-radius: 16px;
+  }
+
+  .ed-page :is(.debutante-carousel-card, .bride-gallery-card)::after {
+    border-radius: 11px;
+  }
+
+  .ed-page .ed-card-trigger {
+    gap: 12px;
+
+    padding: 20px;
+
+    font-size: 18px;
+  }
+
+  .ed-page .accordion-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .ed-page .ed-card-content {
+    padding: 0 20px 25px;
+  }
+
+  .ed-page .location-buttons {
+    flex-wrap: wrap;
+  }
+
+  .ed-page .service-book-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .ed-page .ed-hero h1 {
+    font-size: 29px;
+  }
+
+  .ed-page .location-button {
+    padding: 12px 10px;
+  }
+}

@@ -1,0 +1,171 @@
+/* =========================
+   AVISO DE PRIVACIDADE (/privacidade)
+   Mesmo vocabulário visual das páginas de serviço: fundo creme/nude,
+   títulos em Playfair e rosa profundo nos detalhes (contraste AA).
+========================= */
+
+.privacy-page {
+  min-height: 100vh;
+
+  padding: clamp(40px, 6vw, 80px) 6% clamp(64px, 8vw, 110px);
+
+  background: linear-gradient(180deg, #fdf7f2 0%, #fbede7 55%, #f9e8e1 100%);
+  color: var(--th-text);
+}
+
+.privacy-container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.privacy-back {
+  position: relative;
+  display: inline-block;
+
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  color: var(--th-rose-deep);
+}
+
+/* Área de toque de 24px+ sem mudar o desenho. */
+.privacy-back::after {
+  content: "";
+  position: absolute;
+  inset: -8px -10px;
+}
+
+.privacy-back:hover {
+  color: #6e3a40;
+}
+
+.privacy-eyebrow {
+  display: block;
+
+  margin-top: 36px;
+
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+
+  color: var(--th-rose-deep);
+}
+
+.privacy-page h1 {
+  margin-top: 12px;
+
+  font-family: var(--th-serif);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 500;
+  line-height: 1.1;
+
+  color: var(--th-ink);
+}
+
+.privacy-updated {
+  margin-top: 12px;
+
+  font-size: 14px;
+}
+
+.privacy-page section {
+  margin-top: 36px;
+  padding-top: 28px;
+
+  border-top: 1px solid rgba(201, 146, 74, 0.35);
+}
+
+.privacy-page h2 {
+  font-family: var(--th-serif);
+  font-size: clamp(22px, 2.4vw, 28px);
+  font-weight: 500;
+  line-height: 1.2;
+
+  color: var(--th-ink);
+}
+
+.privacy-page p,
+.privacy-page li {
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.privacy-page section p,
+.privacy-page section ul {
+  margin-top: 12px;
+}
+
+.privacy-page ul {
+  padding-left: 1.2em;
+}
+
+.privacy-page li + li {
+  margin-top: 6px;
+}
+
+.privacy-page li::marker {
+  color: #c9924a;
+}
+
+.privacy-page section a {
+  color: var(--th-rose-deep);
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+
+.privacy-page a:focus-visible {
+  outline: 2px solid var(--th-rose);
+  outline-offset: 3px;
+}
+
+/* Ponto pendente de decisão da profissional — bem visível na revisão. */
+.privacy-pending {
+  padding: 14px 18px;
+
+  border: 1px dashed #8a4a50;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.7);
+
+  color: #6e3a40;
+  font-weight: 600;
+}
+
+/* Link "Aviso de privacidade" nos formulários e no rodapé. */
+.privacy-link {
+  color: var(--th-rose-deep);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.privacy-link:focus-visible {
+  outline: 2px solid var(--th-rose);
+  outline-offset: 2px;
+}
+
+/* Formulário dos pacotes: nota discreta abaixo do botão de envio. */
+.booking-privacy-note {
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+
+  color: #6f5a55;
+}
+
+/* Rodapé: link sozinho na linha, com alvo de toque de 24px+. Herda a cor
+   do texto do rodapé (claro na Home, escuro na 404) para manter o contraste
+   nos dois; o sublinhado indica que é link. */
+.footer-privacy-link {
+  display: inline-block;
+
+  color: inherit;
+
+  margin-top: 6px;
+  padding: 5px 2px;
+
+  font-size: 12px;
+}

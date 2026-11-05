@@ -1,0 +1,20 @@
+# Cabeçalhos de segurança do Cloudflare Pages (o Vite copia este arquivo
+# para a raiz do build). Valem para todas as páginas, inclusive as servidas
+# pelo fallback de SPA do _redirects.
+#
+# CSP: tudo vem do próprio domínio (scripts, estilos, fontes e imagens do
+# build); "data:" só para os SVGs embutidos no CSS. frame-src libera apenas
+# o mapa incorporado do Google Maps (endereço /maps/embed), para a futura
+# seção de localização — nenhum outro conteúdo do Google.
+# Ao adicionar o mapa: trocar fullscreen=(self) por
+# fullscreen=(self "https://www.google.com") e usar allow="fullscreen" no
+# iframe. Se um dia for usada a API JavaScript do Maps (e não o iframe), a
+# CSP precisa ser ampliada para os domínios da API nesse momento.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://www.google.com/maps/embed; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)
+  Cross-Origin-Opener-Policy: same-origin
+  Strict-Transport-Security: max-age=31536000

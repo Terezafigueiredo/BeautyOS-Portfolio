@@ -1,0 +1,664 @@
+/* =========================
+   SOBRE MIM — continuação visual da capa
+   Reaproveita os tokens (--th-*), a fonte, os brilhos (.th-spark) e os
+   keyframes de home.css. Fotos e enquadramentos do carrossel continuam
+   os mesmos (mesmas alturas e object-fit/position do style.css).
+========================= */
+
+.about {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(48px, 7vw, 100px);
+
+  padding: clamp(84px, 9vw, 124px) 8%;
+
+  background-color: transparent;
+}
+
+/* Começa no mesmo tom em que a capa termina e clareia aos poucos. */
+.about-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  background:
+    radial-gradient(50% 60% at 18% 42%, rgba(249, 220, 215, 0.9) 0%, rgba(249, 220, 215, 0) 70%),
+    radial-gradient(40% 50% at 88% 78%, rgba(246, 229, 211, 0.8) 0%, rgba(246, 229, 211, 0) 70%),
+    linear-gradient(180deg, #f7e2db 0%, #fbede7 24%, #fdf6f1 72%, #fffaf8 100%);
+}
+
+/* Fio dourado que marca a passagem da capa para o Sobre. */
+.about::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 50%;
+
+  width: min(220px, 40%);
+  height: 1px;
+
+  translate: -50% 0;
+
+  background: linear-gradient(90deg, rgba(201, 146, 74, 0), #c9924a, rgba(201, 146, 74, 0));
+}
+
+/* Arcos dourados extras atrás do carrossel, com brilho alternado. */
+.about-arc {
+  position: absolute;
+  inset: -38px;
+
+  border: 1px solid rgba(214, 168, 96, 0.42);
+  border-radius: calc(var(--arch) + 38px) calc(var(--arch) + 38px) 64px 64px;
+
+  pointer-events: none;
+
+  animation: about-arc-glow 7s ease-in-out infinite alternate;
+}
+
+.about-arc-outer {
+  inset: -62px;
+
+  border-color: rgba(214, 168, 96, 0.26);
+  border-radius: calc(var(--arch) + 62px) calc(var(--arch) + 62px) 86px 86px;
+
+  animation-delay: -3.5s;
+}
+
+@keyframes about-arc-glow {
+  from {
+    opacity: 0.35;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---------- Galeria ---------- */
+
+.about-gallery {
+  position: relative;
+
+  max-width: 470px;
+}
+
+.about-decor {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+}
+
+.about-glow {
+  position: absolute;
+  left: -14%;
+  top: -10%;
+
+  width: 128%;
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 226, 170, 0.55),
+    rgba(244, 196, 150, 0.25) 50%,
+    rgba(240, 180, 170, 0) 75%
+  );
+
+  animation: th-breathe 8s ease-in-out infinite alternate;
+}
+
+.about-frame {
+  --arch: 220px;
+
+  position: relative;
+  z-index: 1;
+}
+
+/* Moldura dourada dupla em arco, por fora da foto. */
+.about-frame-ring,
+.about-frame-ring::after {
+  position: absolute;
+
+  border-radius: calc(var(--arch) + 14px) calc(var(--arch) + 14px) 44px 44px;
+
+  pointer-events: none;
+}
+
+.about-frame-ring {
+  inset: -14px;
+
+  border: 1.5px solid rgba(233, 194, 124, 0.75);
+
+  box-shadow:
+    0 0 30px rgba(240, 200, 130, 0.35),
+    inset 0 0 18px rgba(255, 235, 200, 0.3);
+}
+
+.about-frame-ring::after {
+  content: "";
+
+  inset: -12px;
+
+  animation: about-arc-glow 7s ease-in-out -1.7s infinite alternate;
+
+  border: 1px solid rgba(233, 194, 124, 0.32);
+  border-radius: calc(var(--arch) + 26px) calc(var(--arch) + 26px) 56px 56px;
+}
+
+.about-slideshow {
+  border-radius: var(--arch) var(--arch) 30px 30px;
+
+  background-color: #f3e1dc;
+
+  box-shadow:
+    0 34px 80px rgba(110, 70, 70, 0.22),
+    0 0 0 6px rgba(255, 250, 246, 0.75);
+}
+
+.about-slide {
+  transition:
+    opacity 1.2s ease,
+    transform 6s ease;
+}
+
+/* Slides invisíveis não recebem toques (ficam empilhados sobre o atual). */
+.about-slide:not(.active) {
+  pointer-events: none;
+}
+
+/* Selo "10 anos" na tipografia editorial. */
+.about-photo-overlay {
+  left: 34px;
+  bottom: 34px;
+}
+
+.about-photo-overlay::before {
+  content: "";
+
+  width: 34px;
+  height: 1px;
+  margin-bottom: 12px;
+
+  background: linear-gradient(90deg, #f3cf8f, rgba(243, 207, 143, 0));
+}
+
+.about-photo-overlay span {
+  font-family: var(--th-serif);
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.about-photo-overlay small {
+  font-weight: 600;
+  letter-spacing: 0.16em;
+
+  color: #fbeae2;
+}
+
+/* Setas: ícone de linha, rosa escuro (contraste AA). */
+.about-arrow {
+  color: var(--th-rose);
+}
+
+.about-arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+.about-arrow-left svg {
+  transform: rotate(180deg);
+}
+
+.about-arrow:hover {
+  background-color: var(--th-rose-button);
+}
+
+/* No desktop as setas surgem no hover — e também com o foco do teclado. */
+@media (min-width: 901px) {
+  .about-slideshow:focus-within .about-arrow {
+    opacity: 1;
+  }
+}
+
+.about-controls {
+  position: relative;
+  z-index: 1;
+
+  margin-top: 34px;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.about-dots {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+
+  margin: 0;
+}
+
+/* Área de toque de 24px; o traço visível fica no ::before. */
+.about-dot {
+  position: relative;
+
+  width: 24px;
+  height: 24px;
+
+  border-radius: 12px;
+  background-color: transparent;
+}
+
+.about-dot::before {
+  content: "";
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 20px;
+  background-color: #e3c4c4;
+
+  translate: -50% -50%;
+
+  transition:
+    width 0.35s var(--th-ease-soft),
+    background-color 0.35s ease;
+}
+
+.about-dot.active {
+  width: 40px;
+
+  background-color: transparent;
+}
+
+.about-dot.active::before {
+  width: 28px;
+
+  background: linear-gradient(90deg, #a95c62, #c9924a);
+}
+
+/* Celular: a linha de controles usa a largura útil da tela (não só a da
+   moldura), para os 11 indicadores terem alvo de 24px (WCAG 2.5.8) numa
+   linha só: 10 × 24 + 32 = 272px, e a 320px há 288px. A galeria é
+   centralizada, então a linha continua alinhada à foto; a seção corta
+   qualquer excesso (overflow: clip), sem rolagem lateral. A pausa fica ao
+   lado dos pontos quando cabe e desce para a linha de baixo quando não. */
+@media (max-width: 600px) {
+  .about-controls {
+    margin-inline: calc(50% - 50vw + 16px);
+  }
+
+  .about-dots {
+    gap: 0;
+  }
+
+  .about-dot.active {
+    width: 32px;
+  }
+
+  .about-dot.active::before {
+    width: 22px;
+  }
+}
+
+.about-pause {
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  border: 1px solid rgba(159, 85, 91, 0.45);
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--th-rose);
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.about-pause svg {
+  width: 14px;
+  height: 14px;
+}
+
+.about-pause:hover {
+  background: var(--th-rose-button);
+  color: #ffffff;
+}
+
+.about button:focus-visible,
+.about a:focus-visible {
+  outline: 2px solid var(--th-rose);
+  outline-offset: 4px;
+}
+
+/* ---------- Texto ---------- */
+
+.about-content {
+  position: relative;
+  z-index: 1;
+
+  max-width: 560px;
+}
+
+.about-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+
+  font-family: inherit;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+
+  color: var(--th-rose-deep);
+}
+
+.about-eyebrow::before {
+  content: "";
+
+  width: 36px;
+  height: 1px;
+
+  background: linear-gradient(90deg, rgba(201, 146, 74, 0), #c9924a);
+}
+
+.about-content h2 {
+  margin-top: 18px;
+
+  font-family: var(--th-serif);
+  font-size: clamp(38px, 4.4vw, 60px);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+
+  color: var(--th-ink);
+}
+
+.about-content h2 span {
+  color: #a95c62;
+  background: linear-gradient(100deg, #b8686f 0%, #a3575e 55%, #a87553 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Ornamento: losango dourado com fio. */
+.about-ornament {
+  position: relative;
+
+  display: block;
+
+  width: 120px;
+  height: 1px;
+  margin-top: 28px;
+
+  background: linear-gradient(90deg, #c9924a, rgba(201, 146, 74, 0));
+}
+
+.about-ornament::before {
+  content: "";
+
+  position: absolute;
+  top: 50%;
+  left: 0;
+
+  width: 7px;
+  height: 7px;
+
+  border: 1px solid #c9924a;
+  background: #fbede7;
+
+  translate: 0 -50%;
+  rotate: 45deg;
+}
+
+.about-content p {
+  margin-top: 18px;
+
+  font-size: 15.5px;
+  line-height: 1.85;
+
+  color: var(--th-text);
+}
+
+/* Primeiro parágrafo em destaque editorial. */
+.about-content p:first-of-type {
+  margin-top: 26px;
+
+  font-family: var(--th-serif);
+  font-size: clamp(19px, 1.6vw, 22px);
+  line-height: 1.55;
+
+  color: #4a3a36;
+}
+
+.about-button {
+  gap: 12px;
+
+  min-height: 52px;
+  margin-top: 36px;
+  padding: 0 30px;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #ad5f65 0%, #974d53 100%);
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+
+  box-shadow: 0 14px 30px rgba(151, 77, 83, 0.3);
+
+  transition:
+    transform 0.35s var(--th-ease-soft),
+    box-shadow 0.35s ease;
+}
+
+.about-button:hover {
+  background: linear-gradient(135deg, #ad5f65 0%, #974d53 100%);
+  color: #ffffff;
+
+  transform: translateY(-3px);
+  box-shadow:
+    0 18px 40px rgba(151, 77, 83, 0.4),
+    0 0 0 6px rgba(201, 146, 74, 0.14);
+}
+
+.about-button-arrow {
+  width: 18px;
+  height: 18px;
+
+  transition: transform 0.35s var(--th-ease-soft);
+}
+
+.about-button:hover .about-button-arrow {
+  transform: translateX(4px);
+}
+
+/* ---------- Entrada ao rolar ---------- */
+
+/* Escondido só até a seção entrar na tela; a entrada usa animação com
+   fill-mode "backwards" para não travar o hover do botão depois. */
+.about:not(.is-revealed) .about-reveal {
+  opacity: 0;
+}
+
+.about.is-revealed .about-reveal {
+  animation: th-rise 0.9s var(--th-ease-soft) var(--rd, 0s) backwards;
+}
+
+.about.is-revealed .about-gallery {
+  animation-name: about-frame-in;
+  animation-duration: 1.2s;
+}
+
+.about-eyebrow {
+  --rd: 0.15s;
+}
+
+.about-content h2 {
+  --rd: 0.25s;
+}
+
+.about-ornament {
+  --rd: 0.35s;
+}
+
+.about-content p:nth-of-type(1) {
+  --rd: 0.42s;
+}
+
+.about-content p:nth-of-type(2) {
+  --rd: 0.5s;
+}
+
+.about-content p:nth-of-type(3) {
+  --rd: 0.58s;
+}
+
+.about-button {
+  --rd: 0.68s;
+}
+
+@keyframes about-frame-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+}
+
+/* ---------- Pausas e acessibilidade ---------- */
+
+.about.is-offscreen .th-spark,
+.about.is-offscreen .about-glow,
+.about.is-offscreen .about-arc,
+.about.is-offscreen .about-frame-ring::after {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about *,
+  .about *::before,
+  .about *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .about .about-reveal {
+    opacity: 1;
+  }
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 900px) {
+  .about {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 64px;
+
+    padding: 84px 6% 88px;
+  }
+
+  .about-gallery {
+    width: calc(100% - 52px);
+    max-width: 440px;
+  }
+
+  .about-ornament {
+    margin-left: auto;
+    margin-right: auto;
+
+    background: linear-gradient(90deg, rgba(201, 146, 74, 0), #c9924a, rgba(201, 146, 74, 0));
+  }
+
+  .about-ornament::before {
+    left: 50%;
+
+    translate: -50% -50%;
+  }
+}
+
+@media (max-width: 600px) {
+  .about {
+    gap: 52px;
+
+    padding: 68px 5% 76px;
+  }
+
+  .about-frame {
+    --arch: 160px;
+  }
+
+  .about-arc-outer {
+    display: none;
+  }
+
+  .about-arc {
+    inset: -30px;
+
+    border-radius: calc(var(--arch) + 30px) calc(var(--arch) + 30px) 56px 56px;
+  }
+
+  .about-slideshow {
+    height: clamp(420px, 135vw, 500px);
+  }
+
+  .about-photo-overlay {
+    left: 26px;
+    bottom: 26px;
+  }
+
+  .about-photo-overlay span {
+    font-size: 32px;
+  }
+
+  .about-content h2 {
+    font-size: clamp(32px, 9.5vw, 42px);
+  }
+
+  .about-content p {
+    font-size: 15px;
+  }
+
+  .about-content p:first-of-type {
+    font-size: 18px;
+  }
+
+  .about-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .about-button {
+    padding: 0 20px;
+
+    letter-spacing: 0.1em;
+  }
+}

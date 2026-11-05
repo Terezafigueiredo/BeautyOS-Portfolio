@@ -1,0 +1,1300 @@
+/* =========================
+   HOME — HEADER E CAPA CINEMATOGRÁFICA
+   Prefixo th-: classes novas, sem conflito com style.css.
+   Animações usam só transform/opacity. Entradas usam fill-mode
+   "backwards" para não travar o transform dos efeitos de hover.
+========================= */
+
+/* Playfair Display (SIL Open Font License 1.1 — ver
+   src/assets/fonts/OFL-PlayfairDisplay.txt). Arquivo variável, só latim. */
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../assets/fonts/playfair-display-latin-wght-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+    U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --th-serif: "Playfair Display", Georgia, serif;
+  --th-ink: #2b2220;
+  --th-text: #6f5a55;
+  /* Rosa escuro: 4,8:1 sobre o creme e com texto branco (AA). */
+  --th-rose: #9f555b;
+  --th-rose-button: #a95c62;
+  /* Rosa mais profundo para textos pequenos sobre os nudes mais fortes:
+     4,6:1 ou mais em todos os fundos da paleta (AA). */
+  --th-rose-deep: #8a4a50;
+  --th-ease-out: cubic-bezier(0.16, 0.84, 0.3, 1);
+  --th-ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ---------- Header ---------- */
+
+.header {
+  animation: th-drop 0.9s var(--th-ease-soft) 0.15s backwards;
+  transition:
+    background-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.header.is-scrolled {
+  background: rgba(255, 250, 248, 0.9);
+  box-shadow: 0 12px 34px rgba(80, 50, 50, 0.08);
+}
+
+.header .logo-title {
+  font-family: var(--th-serif);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.header .logo-title span,
+.header .logo-subtitle {
+  color: var(--th-rose);
+}
+
+.header .nav a:hover,
+.header .nav a.is-active {
+  color: var(--th-rose);
+}
+
+.header .nav a.is-active::after {
+  width: 100%;
+}
+
+.header .schedule-button {
+  background: linear-gradient(135deg, #ad5f65, #974d53);
+  box-shadow: 0 10px 24px rgba(151, 77, 83, 0.26);
+}
+
+.header .schedule-button:hover {
+  background: linear-gradient(135deg, #a1565c, #8a454b);
+}
+
+.header a:focus-visible,
+.header button:focus-visible {
+  outline: 2px solid var(--th-rose);
+  outline-offset: 4px;
+}
+
+/* ---------- Capa: estrutura ---------- */
+
+.th-hero {
+  --mx: 0;
+  --my: 0;
+  --sy: 0;
+
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+
+  min-height: calc(100svh - 92px);
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+
+  padding: clamp(24px, 3vw, 44px) 6% 84px;
+}
+
+.th-hero-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  background:
+    radial-gradient(60% 70% at 78% 42%, #f9dcd7 0%, rgba(249, 220, 215, 0) 70%),
+    radial-gradient(45% 55% at 12% 88%, #f6e5d3 0%, rgba(246, 229, 211, 0) 70%),
+    linear-gradient(160deg, #fdf7f2 0%, #fbede7 55%, #f7e2db 100%);
+
+  animation: th-fade 1s ease-out backwards;
+}
+
+.th-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- Capa: texto ---------- */
+
+.th-hero-content {
+  position: relative;
+  z-index: 2;
+
+  max-width: 600px;
+
+  translate: 0 calc(var(--sy) * -48px);
+  opacity: calc(1 - var(--sy) * 0.9);
+}
+
+.th-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+
+  color: var(--th-rose-deep);
+
+  animation: th-from-left 0.8s var(--th-ease-soft) 0.3s backwards;
+}
+
+.th-hero-eyebrow::before {
+  content: "";
+
+  width: 36px;
+  height: 1px;
+
+  background: linear-gradient(90deg, rgba(201, 146, 74, 0), #c9924a);
+}
+
+.th-hero-title {
+  margin-top: 18px;
+
+  font-family: var(--th-serif);
+  font-size: clamp(44px, 5.4vw, 84px);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+
+  color: var(--th-ink);
+}
+
+.th-line {
+  display: block;
+
+  animation: th-from-left 1s var(--th-ease-soft) 0.4s backwards;
+}
+
+.th-line:nth-child(2) {
+  animation-delay: 0.52s;
+}
+
+.th-line:nth-child(3) {
+  animation-delay: 0.64s;
+}
+
+.th-accent {
+  color: #a95c62;
+  background: linear-gradient(100deg, #b8686f 0%, #a3575e 55%, #a87553 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.th-hero-text {
+  max-width: 470px;
+  margin-top: 22px;
+
+  font-size: 16px;
+  line-height: 1.8;
+
+  color: var(--th-text);
+
+  animation: th-from-left 0.9s var(--th-ease-soft) 0.78s backwards;
+}
+
+.th-hero-actions {
+  margin-top: 34px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.th-btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  min-height: 52px;
+  padding: 0 30px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+
+  transition:
+    transform 0.35s var(--th-ease-soft),
+    box-shadow 0.35s ease,
+    background-color 0.35s ease,
+    color 0.35s ease;
+
+  animation: th-rise 0.9s var(--th-ease-soft) 2.3s backwards;
+}
+
+.th-btn + .th-btn {
+  animation-delay: 2.42s;
+}
+
+.th-btn-primary {
+  color: #ffffff;
+  background: linear-gradient(135deg, #ad5f65 0%, #974d53 100%);
+  box-shadow: 0 14px 30px rgba(151, 77, 83, 0.3);
+}
+
+/* Reflexo que atravessa o botão no hover. */
+.th-btn-primary::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 236, 214, 0.45) 50%, transparent 70%);
+
+  transform: translateX(-120%);
+  transition: transform 0.8s ease;
+}
+
+.th-btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 18px 40px rgba(151, 77, 83, 0.4),
+    0 0 0 6px rgba(201, 146, 74, 0.14);
+}
+
+.th-btn-primary:hover::after {
+  transform: translateX(120%);
+}
+
+.th-btn-arrow {
+  width: 18px;
+  height: 18px;
+
+  transition: transform 0.35s var(--th-ease-soft);
+}
+
+.th-btn:hover .th-btn-arrow {
+  transform: translateX(4px);
+}
+
+.th-btn-outline {
+  color: var(--th-rose);
+  border: 1px solid rgba(159, 85, 91, 0.7);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.th-btn-outline:hover {
+  background: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(122, 72, 72, 0.12);
+}
+
+.th-hero a:focus-visible,
+.th-whatsapp:focus-visible {
+  outline: 2px solid var(--th-rose);
+  outline-offset: 4px;
+}
+
+.th-hero-features {
+  margin-top: 42px;
+  padding: 0;
+
+  display: flex;
+
+  list-style: none;
+}
+
+.th-hero-features li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  max-width: 200px;
+  padding: 0 22px;
+
+  border-left: 1px solid rgba(159, 85, 91, 0.22);
+
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+
+  color: #5b4843;
+
+  animation: th-rise 0.8s var(--th-ease-soft) 2.55s backwards;
+}
+
+.th-hero-features li:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.th-hero-features li:nth-child(2) {
+  animation-delay: 2.65s;
+}
+
+.th-hero-features li:nth-child(3) {
+  animation-delay: 2.75s;
+}
+
+.th-feature-icon {
+  flex: none;
+
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid rgba(201, 146, 74, 0.55);
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.55);
+  color: #a8783f;
+}
+
+.th-feature-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ---------- Capa: palco da foto ---------- */
+
+.th-stage {
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+
+  /* Cabe na primeira tela: a cena nunca passa da altura disponível. */
+  width: min(100%, 620px, max(360px, calc((100svh - 92px - 96px) * 620 / 700)));
+
+  /* As medidas internas usam cqw = % da largura do palco. */
+  container-type: inline-size;
+  pointer-events: none;
+}
+
+.th-scene {
+  position: relative;
+
+  aspect-ratio: 620 / 700;
+}
+
+.th-layer {
+  position: absolute;
+  inset: 0;
+}
+
+/* Profundidade: cada camada se desloca numa intensidade diferente com o
+   mouse (--mx/--my) e com a rolagem (--sy). */
+.th-layer-glow {
+  z-index: 1;
+  translate: calc(var(--mx) * 6px) calc(var(--my) * 6px + var(--sy) * -20px);
+}
+
+.th-layer-back {
+  z-index: 2;
+  translate: calc(var(--mx) * -14px) calc(var(--my) * -10px + var(--sy) * -70px);
+}
+
+.th-photo-depth {
+  position: absolute;
+  z-index: 3;
+  left: 18cqw;
+  top: 10cqw;
+
+  width: 64cqw;
+  aspect-ratio: 430 / 590;
+
+  translate: calc(var(--mx) * -8px) calc(var(--my) * -6px + var(--sy) * -30px);
+}
+
+.th-layer-front {
+  z-index: 4;
+  translate: calc(var(--mx) * -24px) calc(var(--my) * -16px + var(--sy) * -80px);
+}
+
+.th-layer-brushes {
+  z-index: 5;
+  translate: calc(var(--mx) * -30px) calc(var(--my) * -22px + var(--sy) * -100px);
+}
+
+/* Foto original: arco, bordas esfumadas só nas laterais extremas e na base
+   (vestido). Nenhum filtro é aplicado à imagem. */
+.th-photo {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+  border-radius: 32cqw 32cqw 26px 26px;
+
+  -webkit-mask-image:
+    linear-gradient(to bottom, #000 74%, transparent 98%),
+    linear-gradient(to right, transparent, #000 2.5%, #000 97.5%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to bottom, #000 74%, transparent 98%),
+    linear-gradient(to right, transparent, #000 2.5%, #000 97.5%, transparent);
+  mask-composite: intersect;
+
+  /* Surge pela direita, com profundidade. Opacidade sempre 1 (LCP). */
+  animation: th-photo-in 1.4s var(--th-ease-out) 0.5s backwards;
+}
+
+.th-photo img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: 50% 0;
+
+  animation: th-photo-zoom 2.4s var(--th-ease-out) 0.5s backwards;
+}
+
+.th-photo-veil {
+  position: absolute;
+  inset: 0;
+
+  background: #fbede7;
+  opacity: 0;
+
+  animation: th-veil 1.6s ease-out 0.5s backwards;
+}
+
+.th-photo-ring {
+  position: absolute;
+  inset: -1.6cqw;
+
+  border: 1.5px solid rgba(233, 194, 124, 0.75);
+  border-radius: 33.6cqw 33.6cqw 30px 30px;
+
+  box-shadow:
+    0 0 32px rgba(240, 200, 130, 0.4),
+    inset 0 0 22px rgba(255, 235, 200, 0.35);
+
+  -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 82%);
+  mask-image: linear-gradient(to bottom, #000 62%, transparent 82%);
+
+  animation: th-fade 1.2s ease-out 0.95s backwards;
+}
+
+/* ---------- Halo dourado ---------- */
+
+.th-halo-glow {
+  position: absolute;
+  left: 6%;
+  top: 0;
+
+  width: 88%;
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 226, 170, 0.75),
+    rgba(244, 196, 150, 0.35) 45%,
+    rgba(240, 180, 170, 0) 75%
+  );
+
+  animation:
+    th-fade 1.4s ease-out 0.8s backwards,
+    th-breathe 7s ease-in-out 2.2s infinite alternate;
+}
+
+.th-halo-svg {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: visible;
+}
+
+.th-ring {
+  stroke-dasharray: 0.4 0.6;
+
+  transform-box: fill-box;
+  transform-origin: center;
+
+  animation:
+    th-ring-in 1.8s var(--th-ease-soft) var(--d) backwards,
+    th-ring-orbit var(--t) linear var(--d) infinite;
+}
+
+/* Parte da frente dos anéis: aparece só na faixa do vestido. */
+.th-halo-front {
+  position: absolute;
+  inset: 0;
+
+  -webkit-mask-image: linear-gradient(to bottom, transparent 76%, #000 86%);
+  mask-image: linear-gradient(to bottom, transparent 76%, #000 86%);
+}
+
+/* ---------- Pó compacto ---------- */
+
+.th-tone-rose {
+  --c: 226 146 156;
+  --c-dust: 205 118 130;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .84 0 0 0 0 .5 0 0 0 0 .56 0 0 0 9 -5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.th-tone-bronze {
+  --c: 204 150 108;
+  --c-dust: 176 118 78;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .72 0 0 0 0 .5 0 0 0 0 .34 0 0 0 9 -5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.th-tone-champagne {
+  --c: 238 204 166;
+  --c-dust: 214 170 120;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .9 0 0 0 0 .76 0 0 0 0 .58 0 0 0 9 -5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.th-cloud {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+
+  width: var(--w);
+  aspect-ratio: 1.35;
+
+  /* "Explosão" do pó: abre a partir do centro. */
+  animation: th-burst 1.8s var(--th-ease-out) var(--d) backwards;
+}
+
+.th-cloud-haze,
+.th-cloud-grain {
+  position: absolute;
+  inset: 0;
+
+  border-radius: 50%;
+}
+
+.th-cloud-haze {
+  background: radial-gradient(
+    50% 50% at 45% 50%,
+    rgb(var(--c) / 0.82),
+    rgb(var(--c) / 0.5) 38%,
+    rgb(var(--c) / 0.18) 68%,
+    rgb(var(--c) / 0) 100%
+  );
+  filter: blur(8px);
+
+  animation: th-drift 11s ease-in-out calc(var(--d) + 1.8s) infinite alternate;
+}
+
+.th-cloud-grain {
+  background-image: var(--grain);
+  background-size: 140px;
+
+  -webkit-mask-image: radial-gradient(50% 50% at 45% 50%, #000 0%, rgba(0, 0, 0, 0.6) 35%, transparent 80%);
+  mask-image: radial-gradient(50% 50% at 45% 50%, #000 0%, rgba(0, 0, 0, 0.6) 35%, transparent 80%);
+
+  opacity: 1;
+
+  animation: th-drift-alt 14s ease-in-out calc(var(--d) + 1.8s) infinite alternate;
+}
+
+/* Grãos que se soltam e se dispersam. Invisíveis em repouso. */
+.th-dust {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+
+  width: var(--s);
+  height: var(--s);
+
+  border-radius: 50%;
+  background: rgb(var(--c-dust));
+
+  opacity: 0;
+
+  animation: th-disperse var(--t) cubic-bezier(0.2, 0.6, 0.3, 1) var(--d) infinite;
+}
+
+/* ---------- Partículas douradas ---------- */
+
+.th-spark {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+
+  width: var(--s);
+  height: var(--s);
+
+  border-radius: 50%;
+
+  background: radial-gradient(circle, #fffaf0 0%, #f6d692 35%, rgba(222, 172, 92, 0) 72%);
+  box-shadow: 0 0 calc(var(--s) * 2) rgba(246, 206, 130, 0.55);
+
+  opacity: 0.8;
+
+  animation: th-twinkle var(--t) ease-in-out var(--d) infinite both;
+}
+
+/* ---------- Pétalas desfocadas ---------- */
+
+.th-petal {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+
+  width: var(--s);
+  height: calc(var(--s) * 1.3);
+
+  border-radius: 80% 0 80% 0;
+  background: linear-gradient(135deg, #fbe0df, #e7a5ac 70%, #d98e98);
+  filter: blur(var(--b));
+
+  opacity: 0.7;
+  rotate: var(--r);
+
+  animation:
+    th-fade 1.6s ease-out 1.2s backwards,
+    th-petal-drift 14s ease-in-out 2.8s infinite alternate;
+}
+
+/* ---------- Pincéis (imagens fornecidas) ---------- */
+
+.th-brush {
+  position: absolute;
+
+  animation:
+    th-brush-in 1.4s var(--th-ease-out) 1.1s backwards,
+    th-float 7s ease-in-out 2.5s infinite alternate;
+}
+
+/* ---------- Etiquetas ---------- */
+
+.th-labels {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.th-label-slot {
+  position: absolute;
+
+  translate: calc(var(--mx) * -12px) calc(var(--my) * -9px + var(--sy) * -50px);
+
+  animation: th-pop 0.9s cubic-bezier(0.2, 0.9, 0.25, 1.2) var(--d) backwards;
+}
+
+/* Etiquetas 1 e 2: acima do arco e na lateral onde o arco já se estreita —
+   nunca sobre o rosto ou o cabelo. */
+.th-label-slot-1 {
+  top: 0;
+  left: -4%;
+}
+
+.th-label-slot-2 {
+  top: 12%;
+  right: -10%;
+}
+
+.th-label-slot-3 {
+  top: 72%;
+  left: -4%;
+}
+
+/* Longe do botão flutuante do WhatsApp (canto inferior direito da tela). */
+.th-label-slot-4 {
+  top: 89%;
+  right: 8%;
+}
+
+.th-label-float {
+  display: block;
+
+  animation: th-float 6s ease-in-out calc(var(--d) + 0.9s) infinite alternate;
+}
+
+.th-label-slot-2 .th-label-float {
+  animation-duration: 7.2s;
+}
+
+.th-label-slot-3 .th-label-float {
+  animation-duration: 6.6s;
+}
+
+.th-label-slot-4 .th-label-float {
+  animation-duration: 7.8s;
+}
+
+.th-label {
+  pointer-events: auto;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 7px 8px 7px 7px;
+
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.86);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 14px 32px rgba(122, 72, 72, 0.14),
+    0 2px 6px rgba(122, 72, 72, 0.06);
+
+  color: #3d302d;
+  text-align: left;
+
+  transition:
+    transform 0.35s var(--th-ease-soft),
+    box-shadow 0.35s ease;
+}
+
+.th-label:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 40px rgba(122, 72, 72, 0.2),
+    0 0 0 4px rgba(201, 146, 74, 0.12);
+}
+
+.th-label-icon {
+  flex: none;
+
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #fdf0ec, #f6dcd8);
+  color: var(--th-rose);
+}
+
+.th-label-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.th-label-text {
+  max-width: 132px;
+
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.th-label-arrow {
+  flex: none;
+
+  width: 28px;
+  height: 28px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--th-rose-button);
+  color: #ffffff;
+
+  transition: transform 0.35s var(--th-ease-soft);
+}
+
+.th-label-arrow svg {
+  width: 14px;
+  height: 14px;
+}
+
+.th-label:hover .th-label-arrow {
+  transform: translateX(3px);
+}
+
+/* ---------- Indicador de rolagem ---------- */
+
+.th-scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  z-index: 2;
+
+  width: 44px;
+  height: 58px;
+
+  display: grid;
+  place-items: center;
+
+  translate: -50% 0;
+
+  animation: th-rise 0.9s var(--th-ease-soft) 2.8s backwards;
+}
+
+.th-scroll-mouse {
+  width: 26px;
+  height: 42px;
+
+  display: flex;
+  justify-content: center;
+
+  padding-top: 8px;
+
+  border: 1.5px solid rgba(159, 85, 91, 0.6);
+  border-radius: 14px;
+}
+
+.th-scroll-mouse span {
+  width: 3px;
+  height: 8px;
+
+  border-radius: 2px;
+  background: var(--th-rose);
+
+  animation: th-wheel 1.8s ease-in-out 3.2s infinite;
+}
+
+/* ---------- WhatsApp flutuante ---------- */
+
+.th-whatsapp {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 900;
+
+  width: 58px;
+  height: 58px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #ad5f65, #974d53);
+  color: #ffffff;
+
+  box-shadow: 0 14px 30px rgba(151, 77, 83, 0.35);
+
+  transition:
+    transform 0.35s var(--th-ease-soft),
+    box-shadow 0.35s ease;
+
+  animation: th-pop 0.9s cubic-bezier(0.2, 0.9, 0.25, 1.2) 3s backwards;
+}
+
+.th-whatsapp::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  border-radius: 50%;
+  border: 2px solid rgba(169, 92, 98, 0.45);
+
+  animation: th-pulse 2.8s ease-out 4s infinite;
+}
+
+.th-whatsapp svg {
+  width: 28px;
+  height: 28px;
+}
+
+.th-whatsapp:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 18px 38px rgba(151, 77, 83, 0.45);
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes th-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes th-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+}
+
+@keyframes th-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes th-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+@keyframes th-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.9);
+  }
+}
+
+@keyframes th-photo-in {
+  from {
+    transform: translateX(70px) scale(0.94);
+  }
+}
+
+@keyframes th-photo-zoom {
+  from {
+    transform: scale(1.14);
+  }
+}
+
+@keyframes th-veil {
+  from {
+    opacity: 1;
+  }
+}
+
+@keyframes th-ring-in {
+  from {
+    opacity: 0;
+    stroke-dashoffset: 0.6;
+  }
+}
+
+@keyframes th-ring-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes th-breathe {
+  to {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes th-burst {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  35% {
+    opacity: 1;
+  }
+}
+
+@keyframes th-drift {
+  to {
+    transform: translate(10px, -8px) scale(1.08);
+  }
+}
+
+@keyframes th-drift-alt {
+  to {
+    transform: translate(-8px, 6px) scale(1.05) rotate(4deg);
+  }
+}
+
+@keyframes th-disperse {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5);
+  }
+
+  12% {
+    opacity: 0.9;
+  }
+
+  70% {
+    opacity: 0.45;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(1.1);
+  }
+}
+
+@keyframes th-twinkle {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.4);
+  }
+
+  45% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-26px) scale(0.5);
+  }
+}
+
+@keyframes th-petal-drift {
+  to {
+    transform: translate(14px, -18px) rotate(24deg);
+  }
+}
+
+@keyframes th-brush-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px) rotate(-8deg) scale(0.92);
+  }
+}
+
+@keyframes th-float {
+  to {
+    transform: translateY(-9px);
+  }
+}
+
+@keyframes th-wheel {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  80%,
+  100% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes th-pulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+/* ---------- Pausas e acessibilidade ---------- */
+
+/* Fora da tela, nada fica animando em segundo plano. */
+.th-hero.is-offscreen *,
+.th-hero.is-offscreen *::before,
+.th-hero.is-offscreen *::after {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .th-hero *,
+  .th-hero *::before,
+  .th-hero *::after,
+  .th-whatsapp,
+  .th-whatsapp::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- Responsivo ---------- */
+
+/* Notebooks menores: o nome e o menu cabem numa linha. */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .header .logo-title {
+    font-size: 26px;
+  }
+
+  .header .nav {
+    gap: 26px;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1000px) {
+  .header .logo-title {
+    font-size: 23px;
+  }
+
+  .header .nav {
+    gap: 18px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .th-hero-features li {
+    padding: 0 14px;
+    letter-spacing: 0.12em;
+  }
+
+  .th-label-text {
+    max-width: 112px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 900px) {
+  .th-hero {
+    min-height: auto;
+
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+
+    padding: 44px 6% 64px;
+
+    text-align: center;
+  }
+
+  .th-hero-content {
+    margin: 0 auto;
+
+    translate: none;
+    opacity: 1;
+  }
+
+  .th-hero-text {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .th-hero-actions,
+  .th-hero-features {
+    justify-content: center;
+  }
+
+  .th-hero-features li {
+    text-align: left;
+  }
+
+  .th-stage {
+    width: min(100%, 520px);
+  }
+
+  .th-scroll-cue {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .th-hero {
+    gap: 36px;
+    padding: 32px 5% 56px;
+  }
+
+  .th-hero-title {
+    font-size: clamp(38px, 11vw, 48px);
+  }
+
+  .th-hero-text {
+    font-size: 15px;
+  }
+
+  .th-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .th-btn {
+    width: 100%;
+  }
+
+  .th-hero-features {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .th-hero-features li {
+    flex-direction: column;
+    gap: 8px;
+
+    max-width: none;
+    padding: 0 6px;
+
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+
+  .th-hero-features li:first-child {
+    padding-left: 6px;
+  }
+
+  /* Celular: cena mais leve e etiquetas em grade abaixo da foto. */
+  .th-extra,
+  .th-layer-front .th-petal {
+    display: none;
+  }
+
+  .th-labels {
+    position: static;
+
+    margin-top: 20px;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .th-label-slot {
+    position: static;
+    translate: none;
+  }
+
+  .th-label-float {
+    height: 100%;
+    animation: none;
+  }
+
+  .th-label {
+    height: 100%;
+    text-align: left;
+  }
+
+  .th-label-text {
+    max-width: none;
+    flex: 1;
+
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+  }
+
+  .th-label-arrow {
+    display: none;
+  }
+
+  .th-whatsapp {
+    right: 16px;
+    bottom: 16px;
+
+    width: 52px;
+    height: 52px;
+  }
+}
