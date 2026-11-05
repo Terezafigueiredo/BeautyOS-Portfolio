@@ -193,7 +193,7 @@ flowchart TB
         EF["Edge Function<br/>booking-request"] -->|"RPC · service_role"| DB[("PostgreSQL<br/>com RLS")]
     end
 
-    SPA -. "integração futura" .-> EF
+    Hoje -. "integração futura" .-> Futuro
 ```
 
 O site público é uma **SPA estática sem estado no servidor**: todo o cálculo de preço, duração e horário acontece no navegador, a partir de uma fonte única de regras. Nenhum dado da cliente é gravado — a mensagem só sai do dispositivo quando ela própria a envia pelo WhatsApp.
