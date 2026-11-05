@@ -171,7 +171,7 @@ const socialGallery: GalleryPhoto[] = [
   },
   {
     src: social17,
-    alt: "Aniversariante de vestido verde-escuro atrás do bolo de 34 anos, em festa decorada com balões verdes e dourados",
+    alt: "Aniversariante de vestido verde-escuro atrás do bolo de aniversário, em festa decorada com balões verdes e dourados",
     width: 589,
     height: 648,
   },

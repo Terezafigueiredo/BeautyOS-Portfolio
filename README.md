@@ -20,7 +20,7 @@
 </div>
 
 > [!NOTE]
-> **Sobre este repositório.** O BeautyOS é um projeto autoral, desenvolvido para o meu próprio negócio e **em produção** em [terezafigueiredobeauty.com.br](https://terezafigueiredobeauty.com.br/). Este repositório é a **versão pública de portfólio**: o código da aplicação (componentes, tipagens, regras de negócio, estilos, backend e configurações de segurança) é o mesmo da produção, mas as **fotografias de clientes foram substituídas por imagens demonstrativas** com os mesmos nomes e dimensões, para preservar o direito de imagem de cada pessoa. O desenvolvimento acontece em um repositório privado; este tem histórico Git próprio.
+> **Sobre este repositório.** O BeautyOS é um projeto autoral, desenvolvido para o meu próprio negócio e **em produção** em [terezafigueiredobeauty.com.br](https://terezafigueiredobeauty.com.br/). Este repositório é a **versão pública de portfólio**: o código da aplicação (componentes, tipagens, regras de negócio, estilos, backend e configurações de segurança) é o mesmo da produção (salvo um ajuste pontual de privacidade em um texto alternativo), mas as **fotografias de clientes foram substituídas por imagens demonstrativas** com os mesmos nomes e dimensões, para preservar o direito de imagem de cada pessoa. O desenvolvimento acontece em um repositório privado; este tem histórico Git próprio.
 
 ---
 
@@ -74,7 +74,7 @@ O BeautyOS centraliza essas informações em uma aplicação web e transforma o 
 
 ### Catálogo de serviços
 
-- **Página inicial** com apresentação profissional, seção "Sobre", visão geral dos serviços, portfólio, depoimentos e formulário de agendamento.
+- **Página inicial** com apresentação profissional, seção "Sobre", visão geral dos serviços, portfólio e formulário de agendamento. A seção de depoimentos já está estruturada, mas só é exibida quando houver depoimentos com autorização expressa das clientes — hoje ela não aparece.
 - **Páginas dedicadas** por tipo de produção: [Social](https://terezafigueiredobeauty.com.br/social), [Debutante](https://terezafigueiredobeauty.com.br/debutante) e [Noiva](https://terezafigueiredobeauty.com.br/noiva), cada uma com galeria editorial e catálogo próprio.
 - **Produção Social:** seis serviços (maquiagem, babyliss, penteado e combinações, além de produção infantil), cada um com itens incluídos, duração e preço.
 - **Pacotes Noiva e Debutante:** níveis Bronze, Prata e Ouro, com valores distintos para ateliê e domicílio; o pacote Ouro tem preço fixo e é realizado no local do evento.
@@ -170,7 +170,7 @@ Capturas da versão de portfólio executada localmente (`npm run build` + `npm r
 | **Backend (em desenvolvimento)** | Supabase: PostgreSQL com Row Level Security, migrations SQL versionadas e Edge Function em Deno/TypeScript |
 | **Integrações** | WhatsApp (links `wa.me` com mensagem pré-preenchida) |
 | **Infraestrutura** | Cloudflare Pages (cabeçalhos de segurança via `_headers`, fallback de SPA via `_redirects`); `vercel.json` com rewrite equivalente |
-| **Ferramentas auxiliares** | Script Python com Pillow para gerar imagens WebP otimizadas |
+| **Ferramentas auxiliares** | Script Python com Pillow para gerar imagens WebP otimizadas a partir das fotos originais (usado na produção; as fotos originais não fazem parte deste repositório) |
 
 ---
 
@@ -179,15 +179,18 @@ Capturas da versão de portfólio executada localmente (`npm run build` + `npm r
 ### Visão geral
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph Hoje["Em produção"]
-        C([Cliente]) --> SPA["SPA React<br/>Cloudflare Pages"]
-        SPA -->|"regras de preço e duração<br/>(src/lib)"| SPA
-        SPA -->|"mensagem estruturada<br/>wa.me"| W([WhatsApp da profissional])
+        direction TB
+        C([Cliente]) --> SPA["SPA React + TypeScript<br/>Cloudflare Pages"]
+        SPA --> R["Regras de negócio<br/>src/lib · preço, duração, horário"]
+        R --> M["Mensagem estruturada<br/>link wa.me"]
+        M --> W([WhatsApp da profissional])
     end
 
-    subgraph Futuro["Em desenvolvimento — não integrado ao frontend"]
-        EF["Edge Function<br/>booking-request"] -->|"RPC (service_role)"| DB[("PostgreSQL<br/>RLS")]
+    subgraph Futuro["Em desenvolvimento · não integrado"]
+        direction TB
+        EF["Edge Function<br/>booking-request"] -->|"RPC · service_role"| DB[("PostgreSQL<br/>com RLS")]
     end
 
     SPA -. "integração futura" .-> EF
@@ -198,7 +201,7 @@ O site público é uma **SPA estática sem estado no servidor**: todo o cálculo
 ### Estrutura de diretórios
 
 ```text
-BeautyOS/
+BeautyOS-Portfolio/
 ├── public/
 │   ├── _headers                # CSP e demais cabeçalhos de segurança (Cloudflare Pages)
 │   └── _redirects              # fallback de SPA
@@ -373,7 +376,8 @@ O projeto evolui de forma incremental: do site de apresentação para uma plataf
 
 ### Fase 1 — Experiência da cliente · *concluída e em produção*
 
-- [x] Página inicial, portfólio e depoimentos
+- [x] Página inicial e portfólio
+- [ ] Publicação de depoimentos autorizados (componente pronto, sem conteúdo)
 - [x] Páginas dedicadas às produções Social, Debutante e Noiva
 - [x] Catálogo de serviços e pacotes com valores por local de atendimento
 - [x] Pré-agendamento com cálculo de horário e envio estruturado pelo WhatsApp
@@ -412,4 +416,4 @@ Desenvolvido por **Tereza Figueiredo** — maquiadora profissional e estudante d
 [![Site](https://img.shields.io/badge/Site-terezafigueiredobeauty.com.br-a0505a?style=flat-square)](https://terezafigueiredobeauty.com.br/)
 [![Instagram](https://img.shields.io/badge/Instagram-@terezafigueiredobeautyartist-e4405f?style=flat-square&logo=instagram&logoColor=white)](https://www.instagram.com/terezafigueiredobeautyartist)
 
-<sub>As imagens deste repositório são demonstrativas; as fotografias reais aparecem apenas no site em produção. Os textos alternativos (<code>alt</code>) foram mantidos como no código de produção e descrevem as fotos reais. A fonte Playfair Display é distribuída sob a SIL Open Font License (ver <code>src/assets/fonts/OFL-PlayfairDisplay.txt</code>).</sub>
+<sub>As imagens deste repositório são demonstrativas; as fotografias reais aparecem apenas no site em produção. Os textos alternativos (<code>alt</code>) descrevem as fotos reais exibidas em produção, sem nomes ou dados pessoais das clientes. A fonte Playfair Display é distribuída sob a SIL Open Font License (ver <code>src/assets/fonts/OFL-PlayfairDisplay.txt</code>).</sub>
